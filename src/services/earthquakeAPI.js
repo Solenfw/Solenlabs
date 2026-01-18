@@ -4,10 +4,10 @@ const BASE_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary';
 
 // Available time ranges
 export const TIME_RANGES = {
-  HOUR: ['all_hour', 'significant_hour', '4.5_hour', '2.5_hour', '1.0_hour'],
-  DAY: ['all_day', 'significant_day', '4.5_day', '2.5_day', '1.0_day'],
-  WEEK: ['all_week', 'significant_week', '4.5_week', '2.5_week', '1.0_week'],
-  MONTH: ['all_month', 'significant_month', '4.5_month', '2.5_month', '1.0_month']
+  HOUR: 'hour',
+  DAY: 'day',
+  WEEK: 'week',
+  MONTH: 'month'
 };
 
 // Available magnitude thresholds
