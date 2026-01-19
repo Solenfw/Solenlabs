@@ -1,27 +1,11 @@
 import { useState } from 'react';
 import Globe from './components/Globe';
+import InfoPanel from './components/InfoPanel';
 import { useEarthquakes } from './hooks/useEarthquakes';
 
 function App() {
-  const { earthquakes, loading, error } = useEarthquakes();
+  const { earthquakes, loading, error, lastUpdated, refresh } = useEarthquakes();
   const [selectedEarthquake, setSelectedEarthquake] = useState(null);
-
-  if (loading) {
-    return (
-      <div style={{ 
-        width: '100vw', 
-        height: '100vh', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        background: '#000',
-        color: '#fff',
-        fontSize: '24px'
-      }}>
-        Loading earthquake data...
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -36,16 +20,39 @@ function App() {
         fontSize: '24px'
       }}>
         Error: {error}
+        <button 
+          onClick={refresh}
+          style={{ 
+            marginLeft: '20px', 
+            padding: '10px 20px', 
+            background: '#3b82f6',
+            border: 'none',
+            color: '#fff',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Retry
+        </button>
       </div>
     );
   }
 
   return (
-    <Globe 
-      earthquakes={earthquakes} 
-      onEarthquakeClick={setSelectedEarthquake}
-      selectedEarthquake={selectedEarthquake}
-    />
+    <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
+      <Globe 
+        earthquakes={earthquakes} 
+        onEarthquakeClick={setSelectedEarthquake}
+        selectedEarthquake={selectedEarthquake}
+      />
+      
+      <InfoPanel 
+        earthquakes={earthquakes}
+        lastUpdated={lastUpdated}
+        onRefresh={refresh}
+        loading={loading}
+      />
+    </div>
   );
 }
 
