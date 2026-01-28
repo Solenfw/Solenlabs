@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-// import { earthTexture } from '../assets/earth-uv-map.jpg';
-import geoJsonData from '../assets/geojson/ne_110m_land.json';
+import earthTexture from '../assets/earth-uv-map.jpg';
+import geoJsonData from '../assets/geojson/countries.json';
 import { getLayer } from "../hooks/getLayer";
 import { getStarfield } from '../hooks/getStarField';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { drawThreeGeo } from '../hooks/getThreeGeoJSON';
 
 
@@ -20,6 +20,8 @@ const Globe = () => {
     const h = window.innerHeight;
     const scene = new THREE.Scene();
     
+    scene.fog = new THREE.FogExp2(0x000000, 0.25); 
+
     // set up camera
     const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
     camera.position.z = 5; // Move camera back 5 units so we can see objects at origin
@@ -44,7 +46,7 @@ const Globe = () => {
     const lineMat = new THREE.LineBasicMaterial({ 
       color: 0xffffff,
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.1,
     });
     const edges = new THREE.EdgesGeometry(geometry);
     const line = new THREE.LineSegments(edges, lineMat);
@@ -54,6 +56,7 @@ const Globe = () => {
     const material = new THREE.MeshStandardMaterial({
       color: 0xffffff, 
       transparent: true,
+      map: new THREE.TextureLoader().load(earthTexture),
     });
     
     // Mesh = Geometry + Material
@@ -83,9 +86,8 @@ const Globe = () => {
     });
     // scene.add(gradientBackground);
 
-    const stars = getStarfield(2000);
+    const stars = getStarfield({numStars: 2000});
     scene.add(stars);
-
 
     // ============================================
     // LOAD & DRAW GEOJSON DATA
@@ -95,7 +97,7 @@ const Globe = () => {
       json: geoJsonData,
       radius: 2,
       materialOptions: {
-        color: 0x80FF80,
+        color: 0xffffff,
       },
     });
     scene.add(countries);
