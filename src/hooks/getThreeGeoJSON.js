@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
-import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
-import { Line2 } from "three/examples/jsm/lines/Line2.js";
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
+import { LineGeometry } from "three/examples/jsm/lines/LineGeometry";
+import { Line2 } from "three/examples/jsm/lines/Line2";
 
 /* Draw GeoJSON
 
@@ -219,8 +219,11 @@ export function drawThreeGeo({ json, radius, materalOptions }) {
     const color = new THREE.Color().setHSL(hue, 1.0, 0.5);
     const lineMaterial = new LineMaterial({
       color,
-      linewidth: 2,
-      fog: true
+      linewidth: 0.5, // in pixels
+      fog: true,
+      dashSize: 3,
+      gapSize: 1,
+      dashOffset: 0,
     });
 
     const line = new Line2(lineGeo, lineMaterial);
