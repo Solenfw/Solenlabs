@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import earthTexture from '../assets/earth-uv-map.jpg';
+// import { earthTexture } from '../assets/earth-uv-map.jpg';
+import geoJsonData from '../assets/geojson/ne_110m_land.json';
 import { getLayer } from "../hooks/getLayer";
 import { getStarfield } from '../hooks/getStarField';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { drawThreeGeo } from '../hooks/getThreeGeoJSON';
 
 
 // import { latLonToVector3 } from '../utils/earthquakeUtils';
@@ -82,13 +85,28 @@ const Globe = () => {
 
     const stars = getStarfield(2000);
     scene.add(stars);
-    
+
+
+    // ============================================
+    // LOAD & DRAW GEOJSON DATA
+    // ============================================
+
+    const countries = drawThreeGeo({
+      json: geoJsonData,
+      radius: 2,
+      materialOptions: {
+        color: 0x80FF80,
+      },
+    });
+    scene.add(countries);
+
+
     function animate() {
-      requestAnimationFrame(animate); 
-      // sphere.rotation.x += 0.01; 
-      // sphere.rotation.y += 0.02; 
+      requestAnimationFrame(animate);
+      // sphere.rotation.x += 0.01;
+      // sphere.rotation.y += 0.02;
       renderer.render(scene, camera);
-      ctrls.update(); 
+      ctrls.update();
     }
     animate(); 
     
