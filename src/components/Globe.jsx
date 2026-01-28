@@ -37,11 +37,11 @@ const Globe = () => {
     const ctrls = new OrbitControls(camera, renderer.domElement);
     ctrls.enableDamping = true; 
     
-    const geometry = new THREE.SphereGeometry();
+    const geometry = new THREE.SphereGeometry(2);
     const lineMat = new THREE.LineBasicMaterial({ 
       color: 0xffffff,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.4,
     });
     const edges = new THREE.EdgesGeometry(geometry);
     const line = new THREE.LineSegments(edges, lineMat);
@@ -80,7 +80,7 @@ const Globe = () => {
     });
     // scene.add(gradientBackground);
 
-    const stars = getStarfield();
+    const stars = getStarfield(2000);
     scene.add(stars);
     
     function animate() {
