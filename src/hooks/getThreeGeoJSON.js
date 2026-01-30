@@ -138,7 +138,7 @@ export function drawThreeGeo({ json, radius, materalOptions }) {
     const lon_distance = Math.abs(lon1 - lon2);
     const lat_distance = Math.abs(lat1 - lat2);
 
-    if (lon_distance > 5 || lat_distance > 5) {
+    if (lon_distance > 2 || lat_distance > 2) {  // interpolation threshold
       return true;
     } else {
       return false;
