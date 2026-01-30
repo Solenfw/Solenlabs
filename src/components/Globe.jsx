@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import earthTexture from '../assets/earth-uv-map.jpg';
-import geoJsonData from '../assets/geojson/countries.json';
+import geoJsonData from '../assets/geojson/ne_50m_countries.json';
 import { getLayer } from "../hooks/getLayer";
 import { getStarfield } from '../hooks/getStarField';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -41,12 +41,18 @@ const Globe = () => {
     // ============================================
     const ctrls = new OrbitControls(camera, renderer.domElement);
     ctrls.enableDamping = true; 
+    ctrls.minDistance = 3;
+    ctrls.maxDistance = 10;
+    ctrls.enablePan = false;
     
+    // ============================================
+    // SPHERE - Earth geometry with wireframe overlay
+    // ============================================
     const geometry = new THREE.SphereGeometry(2);
     const lineMat = new THREE.LineBasicMaterial({ 
       color: 0xffffff,
       transparent: true,
-      opacity: 0.1,
+      opacity: 0.3,
     });
     const edges = new THREE.EdgesGeometry(geometry);
     const line = new THREE.LineSegments(edges, lineMat);
