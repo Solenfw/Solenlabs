@@ -52,7 +52,7 @@ const Globe = () => {
     const lineMat = new THREE.LineBasicMaterial({ 
       color: 0xffffff,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.2,
     });
     const edges = new THREE.EdgesGeometry(geometry);
     const line = new THREE.LineSegments(edges, lineMat);
@@ -90,7 +90,7 @@ const Globe = () => {
       size: 24,         // Each sprite is 24 units large
       z: -15.5,         // Positioned far behind the sphere
     });
-    // scene.add(gradientBackground);
+    scene.add(gradientBackground);
 
     const stars = getStarfield({numStars: 2000});
     scene.add(stars);
