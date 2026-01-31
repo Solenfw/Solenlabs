@@ -12,19 +12,32 @@ import dayMapTexture from '../assets/images/earth-daymap.jpg';
 import nightMapTexture from '../assets/images/earth-nightmap.jpg';
 import geoJsonData from '../assets/geojson/ne_50m_countries.json';
 
-// Utilities
+// Hooks
 import { getLayer } from "../hooks/getLayer";
 import { drawThreeGeo } from '../hooks/getThreeGeoJSON';
 import { getStarfield } from '../hooks/getStarField';
 import { getFresnelMat } from '../hooks/getFresnelMat';
-import { addMarker } from '../utils/earthquakeUtils';
+import { useEarthquakes } from '../hooks/useEarthquakes';
+
+// Utils
+import { drawEarthQuakePoint } from '../utils/earthquakeUtils';
 import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale';
 
 // Shaders
 import { nightLightsShader } from '../shaders/nightLightShader'; 
 
+// Constants
+import { MAG_THRESHOLDS, TIME_RANGES } from '../services/earthquakeAPI';
+
 const Globe = () => {
   const mountRef = useRef(null);
+  const earthGroupRef = useRef(null); 
+  const markersRef = useRef([]);
+  const {
+    earthquakes,
+    setTimeRange,
+    setMagThreshold
+  } = useEarthquakes();
   
   useEffect(() => {
     const w = window.innerWidth;
@@ -32,8 +45,8 @@ const Globe = () => {
     
     // Scene setup
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-    camera.position.z = 5;
+    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 1000);
+    camera.position.z = 8;
     
     // Renderer setup
     const renderer = new THREE.WebGLRenderer();
@@ -57,13 +70,15 @@ const Globe = () => {
     earthGroup.rotation.z = -23.4 * Math.PI / 180;
     scene.add(earthGroup);
 
+    earthGroupRef.current = earthGroup;
+
     // GeoJSON countries overlay layer - rotatig with Earth
     const countries = drawThreeGeo({
       json: geoJsonData,
       radius: 1.0,
       materialOptions: { color: 0x00ff00, opacity: 0.2 }
     });
-    earthGroup.add(countries);
+    // earthGroup.add(countries);
 
     // Main Earth mesh with day texture
     const earthMaterial = new THREE.MeshPhongMaterial({
@@ -118,13 +133,6 @@ const Globe = () => {
     const stars = getStarfield({ numStars: 2000 });
     scene.add(stars);
 
-    // add some sample markers
-    addMarker(37.7749, -122.4194, earthGroup); // San Francisco
-    addMarker(35.6895, 139.6917, earthGroup); // Tokyo
-    addMarker(-33.8688, 151.2093, earthGroup); // Sydney
-    addMarker(51.5074, -0.1278, earthGroup); // London
-
-    // Animation loop
     // Animation loop
     function animate() {
       requestAnimationFrame(animate);
@@ -151,6 +159,36 @@ const Globe = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []); 
+
+  useEffect(() => {
+    const group = earthGroupRef.current;
+    
+    if (!group || !earthquakes|| earthquakes.length === 0) return;
+
+    // Remove existing markers
+    markersRef.current.forEach(marker => {
+      group.remove(marker);
+      marker.geometry.dispose();
+      marker.material.dispose();
+    });
+    markersRef.current = [];
+    
+    // Add new markers
+    earthquakes.forEach(eq => {
+      const lat = eq.geometry.coordinates[1];
+      const lon = eq.geometry.coordinates[0];
+      const mag = eq.properties.mag;
+
+      const marker = drawEarthQuakePoint(lat, lon, { 
+        color: magnitudeToColor(mag),
+        size: magnitudeToSize(mag)
+      });
+      if (marker) {
+        group.add(marker);
+        markersRef.current.push(marker);
+      }
+    });
+  }, [earthquakes]);    // Update earthquake markers when data changes
   
   return <div ref={mountRef} />; 
 };
