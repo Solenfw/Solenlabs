@@ -72,16 +72,22 @@ export const getEarthquakeStats = (earthquakes) => {
   };
 };
 
-// Add a marker at a location
-export function addMarker(lat, lon, earthGroup) {
-  const markerGeometry = new THREE.SphereGeometry(0.02, 8, 8);
-  const markerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+/**
+ * Earthquake points on globe - Spherical shape
+ */
+export const drawEarthQuakePoint = (lat, lon, options = {size, color}) => {
+  const { x, y, z } = latLonToVector3(lat, lon, 1.08); // Slightly above the Earth surface
   
-  // Position on globe surface (radius = 1)
-  const position = latLonToVector3(lat, lon, 1.02); // 1.02 to sit above surface
-  marker.position.copy(position);
+  const color = options.color || 0xff0000;
+  const size = options.size || 0.05; 
+
+  const geometry = new THREE.IcosahedronGeometry(size, 4);
+  const material = new THREE.MeshBasicMaterial({ color }); // Use the passed-in color
   
-  earthGroup.add(marker);
-  return marker;
+  const pointMesh = new THREE.Mesh(geometry, material);
+  pointMesh.position.set(x, y, z);
+  
+  pointMesh.name = `quake-${lat}-${lon}`;
+  
+  return pointMesh;
 }
