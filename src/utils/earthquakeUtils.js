@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { format } from 'date-fns';
 
 /**
@@ -70,3 +71,23 @@ export const getEarthquakeStats = (earthquakes) => {
     byMagnitude
   };
 };
+
+/**
+ * Earthquake points on globe - Spherical shape
+ */
+export const drawEarthQuakePoint = (lat, lon, options = {size, color}) => {
+  const { x, y, z } = latLonToVector3(lat, lon, 1.08); // Slightly above the Earth surface
+  
+  const color = options.color || 0xff0000;
+  const size = options.size || 0.05; 
+
+  const geometry = new THREE.IcosahedronGeometry(size, 4);
+  const material = new THREE.MeshBasicMaterial({ color }); // Use the passed-in color
+  
+  const pointMesh = new THREE.Mesh(geometry, material);
+  pointMesh.position.set(x, y, z);
+  
+  pointMesh.name = `quake-${lat}-${lon}`;
+  
+  return pointMesh;
+}
