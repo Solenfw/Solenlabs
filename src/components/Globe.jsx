@@ -14,10 +14,10 @@ import geoJsonData from '../assets/geojson/ne_50m_countries.json';
 
 // Utilities
 import { getLayer } from "../hooks/getLayer";
-import { getStarfield } from '../hooks/getStarField';
 import { drawThreeGeo } from '../hooks/getThreeGeoJSON';
+import { getStarfield } from '../hooks/getStarField';
 import { getFresnelMat } from '../hooks/getFresnelMat';
-import { latLonToVector3 } from '../utils/earthquakeUtils';
+import { addMarker } from '../utils/earthquakeUtils';
 import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale';
 
 // Shaders
@@ -44,19 +44,27 @@ const Globe = () => {
     // Camera controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.minDistance = 2.5;
+    controls.minDistance = 2;
     controls.maxDistance = 20;
     controls.enablePan = false;
     
     // Texture loader
     const loader = new THREE.TextureLoader();
-    const geometry = new THREE.IcosahedronGeometry(1, 12);
+    const geometry = new THREE.SphereGeometry(1, 64, 64);
     
     // Earth group with axial tilt
     const earthGroup = new THREE.Group();
     earthGroup.rotation.z = -23.4 * Math.PI / 180;
     scene.add(earthGroup);
-    
+
+    // GeoJSON countries overlay layer - rotatig with Earth
+    const countries = drawThreeGeo({
+      json: geoJsonData,
+      radius: 1.0,
+      materialOptions: { color: 0x00ff00, opacity: 0.2 }
+    });
+    earthGroup.add(countries);
+
     // Main Earth mesh with day texture
     const earthMaterial = new THREE.MeshPhongMaterial({
       map: loader.load(dayMapTexture),
@@ -67,6 +75,7 @@ const Globe = () => {
     const earthMesh = new THREE.Mesh(geometry, earthMaterial);
     earthGroup.add(earthMesh);
   
+    // Night lights layer using custom shader
     const uniforms = {
       sunDirection: {value: new THREE.Vector3(-1.5,1.5,0.5) }, // approximate sun direction
       dayTexture: { value: loader.load( dayMapTexture ) },
@@ -109,14 +118,19 @@ const Globe = () => {
     const stars = getStarfield({ numStars: 2000 });
     scene.add(stars);
 
+    // add some sample markers
+    addMarker(37.7749, -122.4194, earthGroup); // San Francisco
+    addMarker(35.6895, 139.6917, earthGroup); // Tokyo
+    addMarker(-33.8688, 151.2093, earthGroup); // Sydney
+    addMarker(51.5074, -0.1278, earthGroup); // London
+
+    // Animation loop
     // Animation loop
     function animate() {
       requestAnimationFrame(animate);
       
-      earthMesh.rotation.y += 0.001;
-      lightsMesh.rotation.y += 0.001;
-      cloudsMesh.rotation.y += 0.0015;
-      glowMesh.rotation.y += 0.001;
+      earthGroup.rotation.y += 0.001;
+      cloudsMesh.rotation.y += 0.0005; // Additional rotation to maintain the original clouds speed (total 0.0015)
       stars.rotation.y -= 0.0001;
 
       renderer.render(scene, camera);
