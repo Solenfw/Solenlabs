@@ -20,6 +20,9 @@ import { getFresnelMat } from '../hooks/getFresnelMat';
 import { latLonToVector3 } from '../utils/earthquakeUtils';
 import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale';
 
+// Shaders
+import { nightLightsShader } from '../shaders/nightLightShader'; 
+
 const Globe = () => {
   const mountRef = useRef(null);
   
@@ -63,14 +66,21 @@ const Globe = () => {
     });
     const earthMesh = new THREE.Mesh(geometry, earthMaterial);
     earthGroup.add(earthMesh);
-    
-    // Night lights layer
-    const lightsMaterial = new THREE.MeshBasicMaterial({
-      map: loader.load(nightMapTexture),
+  
+    const uniforms = {
+      sunDirection: {value: new THREE.Vector3(-1.5,1.5,0.5) }, // approximate sun direction
+      dayTexture: { value: loader.load( dayMapTexture ) },
+      nightTexture: { value: loader.load( nightMapTexture ) }
+    };
+
+    const lightsMaterial = new THREE.ShaderMaterial({
+      uniforms: uniforms,
+      vertexShader: nightLightsShader.vertexShader,
+      fragmentShader: nightLightsShader.fragmentShader,
       blending: THREE.AdditiveBlending,
       transparent: true,
-      opacity: 1,
     });
+
     const lightsMesh = new THREE.Mesh(geometry, lightsMaterial);
     earthGroup.add(lightsMesh);
 
@@ -94,10 +104,6 @@ const Globe = () => {
     // Lighting setup
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
     scene.add(ambientLight);
-
-    const sunLight = new THREE.DirectionalLight(0xffffff, 2.0);
-    sunLight.position.set(5, 3, 5);
-    scene.add(sunLight);
 
     // Starfield background
     const stars = getStarfield({ numStars: 2000 });
