@@ -5,11 +5,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 // Textures
 import earthCloudsTransparent from '../assets/images/earthcloudmaptrans.jpg';
-import earthCloudsTexture from '../assets/images/8k_earth_clouds.jpg';
-import earthSpecTexture from '../assets/images/8081_earthspec4k.jpg';
+import earthCloudsTexture from '../assets/images/earth-cloud.jpg';
+import earthSpecTexture from '../assets/images/earthspecs.jpg';
 import earthBumpTexture from '../assets/images/earth-bump.jpg';
-import dayMapTexture from '../assets/images/8k_earth_daymap.jpg';
-import nightMapTexture from '../assets/images/8k_earth_nightmap.jpg';
+import dayMapTexture from '../assets/images/earth-daymap.jpg';
+import nightMapTexture from '../assets/images/earth-nightmap.jpg';
 import geoJsonData from '../assets/geojson/ne_50m_countries.json';
 
 // Utilities
@@ -69,7 +69,7 @@ const Globe = () => {
       map: loader.load(nightMapTexture),
       blending: THREE.AdditiveBlending,
       transparent: true,
-      opacity: 0.2,
+      opacity: 1,
     });
     const lightsMesh = new THREE.Mesh(geometry, lightsMaterial);
     earthGroup.add(lightsMesh);
@@ -107,11 +107,11 @@ const Globe = () => {
     function animate() {
       requestAnimationFrame(animate);
       
-      earthMesh.rotation.y += 0.002;
-      lightsMesh.rotation.y += 0.002;
-      cloudsMesh.rotation.y += 0.0023;
-      glowMesh.rotation.y += 0.002;
-      stars.rotation.y -= 0.0002;
+      earthMesh.rotation.y += 0.001;
+      lightsMesh.rotation.y += 0.001;
+      cloudsMesh.rotation.y += 0.0015;
+      glowMesh.rotation.y += 0.001;
+      stars.rotation.y -= 0.0001;
 
       renderer.render(scene, camera);
       controls.update();
