@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { format } from 'date-fns';
 
 /**
@@ -70,3 +71,17 @@ export const getEarthquakeStats = (earthquakes) => {
     byMagnitude
   };
 };
+
+// Add a marker at a location
+export function addMarker(lat, lon, earthGroup) {
+  const markerGeometry = new THREE.SphereGeometry(0.02, 8, 8);
+  const markerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+  
+  // Position on globe surface (radius = 1)
+  const position = latLonToVector3(lat, lon, 1.02); // 1.02 to sit above surface
+  marker.position.copy(position);
+  
+  earthGroup.add(marker);
+  return marker;
+}
