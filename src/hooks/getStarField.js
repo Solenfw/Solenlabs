@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import starFieldPath from "../assets/circle.png";
+import starFieldPath from "../assets/images/circle.png";
 
 const loader = new THREE.TextureLoader();
 const sharedTexture = loader.load(starFieldPath);
