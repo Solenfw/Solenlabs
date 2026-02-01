@@ -33,64 +33,64 @@ export default function Home() {
   const planets = [
     { 
       name: 'Mercury', 
-      size: 8, 
-      orbitRadius: 50, 
+      size: 16, 
+      orbitRadius: 100, 
       duration: 8,
       color: '#8C7853',
       image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZXJjdXJ5JTIwcGxhbmV0fGVufDF8fHx8MTc2OTk0MTI1Mnww&ixlib=rb-4.1.0&q=80&w=1080'
     },
     { 
       name: 'Venus', 
-      size: 12, 
-      orbitRadius: 70, 
+      size: 24, 
+      orbitRadius: 140, 
       duration: 12,
       color: '#FFC649',
       image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2ZW51cyUyMHBsYW5ldHxlbnwxfHx8fDE3Njk5NDEyNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
     },
     { 
       name: 'Earth', 
-      size: 13, 
-      orbitRadius: 90, 
+      size: 26, 
+      orbitRadius: 180, 
       duration: 16,
       color: '#4A90E2',
       image: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     },
     { 
       name: 'Mars', 
-      size: 10, 
-      orbitRadius: 110, 
+      size: 20, 
+      orbitRadius: 220, 
       duration: 20,
       color: '#E27B58',
       image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJzJTIwcGxhbmV0JTIwcmVkfGVufDF8fHx8MTc2OTk0MTI1M3ww&ixlib=rb-4.1.0&q=80&w=1080'
     },
     { 
       name: 'Jupiter', 
-      size: 22, 
-      orbitRadius: 140, 
+      size: 44, 
+      orbitRadius: 280, 
       duration: 28,
       color: '#C88B3A',
       image: 'https://images.unsplash.com/photo-1707056790571-54d8612d6368?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqdXBpdGVyJTIwcGxhbmV0fGVufDF8fHx8MTc2OTg0MzA3Mnww&ixlib=rb-4.1.0&q=80&w=1080'
     },
     { 
       name: 'Saturn', 
-      size: 20, 
-      orbitRadius: 170, 
+      size: 40, 
+      orbitRadius: 340, 
       duration: 36,
       color: '#FAD5A5',
       image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYXR1cm4lMjBwbGFuZXQlMjByaW5nc3xlbnwxfHx8fDE3Njk5NDEyNTV8MA&ixlib=rb-4.1.0&q=80&w=1080'
     },
     { 
       name: 'Uranus', 
-      size: 16, 
-      orbitRadius: 195, 
+      size: 32, 
+      orbitRadius: 390, 
       duration: 44,
       color: '#4FD0E7',
       image: 'https://images.unsplash.com/photo-1769364323382-e2de114ab151?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpY2UlMjBnaWFudCUyMHBsYW5ldHxlbnwxfHx8fDE3Njk5NDEyNTd8MA&ixlib=rb-4.1.0&q=80&w=1080'
     },
     { 
       name: 'Neptune', 
-      size: 15, 
-      orbitRadius: 215, 
+      size: 30, 
+      orbitRadius: 430, 
       duration: 52,
       color: '#4169E1',
       image: 'https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXB0dW5lJTIwcGxhbmV0fGVufDF8fHx8MTc2OTk0MTI1NHww&ixlib=rb-4.1.0&q=80&w=1080'
@@ -104,7 +104,7 @@ export default function Home() {
         <ImageWithFallback
           src="https://images.pexels.com/photos/30596250/pexels-photo-30596250.jpeg"
           alt="Space background"
-          className="size-full object-cover opacity-60"
+          className="size-full object-cover opacity-80"
         />
       </div>
 
@@ -138,12 +138,12 @@ export default function Home() {
         </div>
 
         {/* Right Side - Solar System */}
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center" style={{marginLeft: '-300px'}}>
           <div 
             className="relative select-none"
             style={{ 
-              width: '1000px', 
-              height: '1000px',
+              width: '2000px', 
+              height: '2000px',
               perspective: '2000px',
               cursor: isDragging ? 'grabbing' : 'grab'
             }}
@@ -163,13 +163,13 @@ export default function Home() {
             >
               {/* Sun in the center */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                <div className="relative size-16">
+                <div className="relative size-32">
                   {/* Sun glow */}
                   <div className="absolute inset-0 rounded-full bg-yellow-500/60 blur-2xl animate-pulse" />
                   <div className="absolute -inset-5 rounded-full bg-orange-500/40 blur-3xl animate-pulse" style={{ animationDuration: '3s' }} />
                   
                   {/* Sun */}
-                  <div className="relative size-16 rounded-full overflow-hidden shadow-2xl" style={{
+                  <div className="relative size-32 rounded-full overflow-hidden shadow-2xl" style={{
                     boxShadow: '0 0 40px rgba(255, 200, 0, 0.8), inset -8px -8px 20px rgba(0, 0, 0, 0.3)',
                   }}>
                     <ImageWithFallback
