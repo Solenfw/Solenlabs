@@ -24,7 +24,7 @@ export const MAG_THRESHOLDS = {
  * @param {string} timeRange - Time range (hour, day, week, month)
  * @param {string} magThreshold - Magnitude threshold (all, 1.0, 2.5, 4.5, significant)
  */
-export const fetchEarthquakes = async (timeRange = TIME_RANGES.DAY, magThreshold = MAG_THRESHOLDS.ALL) => {
+export const fetchEarthquakes = async (timeRange: string = TIME_RANGES.DAY, magThreshold: string = MAG_THRESHOLDS.ALL) => {
   try {
     const url = `${BASE_URL}/${magThreshold}_${timeRange}.geojson`;
     const response = await axios.get(url);
@@ -39,7 +39,7 @@ export const fetchEarthquakes = async (timeRange = TIME_RANGES.DAY, magThreshold
  * Fetch details for a specific earthquake
  * @param {string} detailUrl - Detail URL from earthquake feature
  */
-export const fetchEarthquakeDetails = async (detailUrl) => {
+export const fetchEarthquakeDetails = async (detailUrl : string) => {
   try {
     const response = await axios.get(detailUrl);
     return response.data;
