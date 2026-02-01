@@ -1,25 +1,33 @@
 # Collab - 3D Globe Visualization
 
-This project uses **Vite + React + Three.js** to create an interactive 3D globe visualization.
+This project uses **Vite + React + TypeScript + Three.js** to create an interactive 3D globe visualization with real-time earthquake data.
+
+## Tech Stack
+
+- ⚛️ **React 18** - UI framework
+- 📘 **TypeScript** - Type-safe development
+- ⚡ **Vite** - Fast build tool and dev server
+- 🌍 **Three.js** - 3D graphics library
+- 🎨 **CSS3** - Styling
 
 ## Prerequisites
 
-Before you start, make sure you have these installed on your Windows machine:
+Before you start, make sure you have these installed:
 
 1. **Node.js** (v18 or higher)
    - Download from: https://nodejs.org/
    - Choose the LTS version
-   - Verify installation by opening Command Prompt and typing:
+   - Verify installation:
 ```bash
      node --version
      npm --version
 ```
 
 2. **Git** (optional, but recommended)
-   - Download from: https://git-scm.com/download/win
+   - Download from: https://git-scm.com/
 
 3. **Code Editor**
-   - Recommended: [VS Code](https://code.visualstudio.com/)
+   - Recommended: [VS Code](https://code.visualstudio.com/) with TypeScript support
 
 ## Setup Instructions
 
@@ -34,10 +42,7 @@ cd collab
 **Option B - Without Git:**
 - Download the project ZIP file
 - Extract it to a folder
-- Open Command Prompt and navigate to the folder:
-```bash
-  cd path\to\collab
-```
+- Navigate to the folder in your terminal
 
 ### 2. Install Dependencies
 
@@ -47,10 +52,11 @@ npm install
 ```
 
 This will install:
-- React
-- Vite
-- Three.js
-- OrbitControls (for camera interaction)
+- React & React DOM
+- TypeScript & type definitions
+- Vite (build tool)
+- Three.js (3D graphics)
+- ESLint (code linting)
 
 **Note:** This may take a few minutes the first time.
 
@@ -76,41 +82,15 @@ Open your browser and go to:
 http://localhost:5173/
 ```
 
-You should see the 3D globe! 🌍
+You should see the interactive 3D globe! 🌍
 
 ### 5. Stop the Server
 
-To stop the development server, press:
-```
-Ctrl + C
-```
-in the Command Prompt where it's running.
-
-## Common Issues & Solutions
-
-### ❌ "npm is not recognized"
-**Solution:** Node.js is not installed or not in your PATH. Reinstall Node.js and restart Command Prompt.
-
-### ❌ Port 5173 is already in use
-**Solution:** Either:
-- Close the other application using that port
-- Or Vite will automatically use port 5174 instead
-
-### ❌ Module not found errors
-**Solution:** Delete `node_modules` folder and `package-lock.json`, then run:
-```bash
-npm install
-```
-
-### ❌ Three.js errors
-**Solution:** Make sure Three.js is installed:
-```bash
-npm install three
-```
+To stop the development server, press `Ctrl + C` in the terminal.
 
 ## Project Structure
 ```
-my-research-lab/
+collab/
 ├── src/
 │   ├── assets/              # Images, textures, and data files
 │   │   ├── circle.png       # Sprite texture for particles
@@ -120,71 +100,137 @@ my-research-lab/
 │   │   │   ├── countries.json
 │   │   │   └── ne_110m_land.json
 │   │   └── usgs_geojson_api.json  # Earthquake data
-│   ├── components/          # React components
-│   │   ├── Globe.jsx        # Main 3D globe component
-│   │   ├── Controls.jsx     # UI controls
-│   │   ├── InfoPanel.jsx    # Information display
-│   │   └── QuakeDetails.jsx # Earthquake details component
+│   ├── components/          # React components (.tsx)
+│   │   ├── Globe.tsx        # Main 3D globe component
+│   │   ├── Controls.tsx     # UI controls
+│   │   ├── InfoPanel.tsx    # Information display
+│   │   └── QuakeDetails.tsx # Earthquake details component
 │   ├── hooks/               # Custom React hooks & Three.js utilities
-│   │   ├── getLayer.js      # Background layer generator
-│   │   ├── getStarField.js  # Starfield background
-│   │   ├── getThreeGeoJSON.js  # GeoJSON to Three.js converter
-│   │   └── useEarthquakes.js   # Earthquake data hook
+│   │   ├── getLayer.ts      # Background layer generator
+│   │   ├── getStarField.ts  # Starfield background
+│   │   ├── getThreeGeoJSON.ts  # GeoJSON to Three.js converter
+│   │   └── useEarthquakes.ts   # Earthquake data hook
 │   ├── services/            # API services
-│   │   └── earthquakeAPI.js # USGS earthquake API calls
+│   │   └── earthquakeAPI.ts # USGS earthquake API calls
 │   ├── utils/               # Utility functions
-│   │   ├── colorScale.js    # Color mapping utilities
-│   │   └── earthquakeUtils.js # Coordinate conversions
-│   ├── App.jsx              # Main app component
-│   ├── main.jsx             # Entry point
+│   │   ├── colorScale.ts    # Color mapping utilities
+│   │   └── earthquakeUtils.ts # Coordinate conversions
+│   ├── App.tsx              # Main app component
+│   ├── main.tsx             # Entry point
+│   ├── vite-env.d.ts        # Vite type definitions
 │   ├── App.css              # App styles
 │   └── index.css            # Global styles
 ├── public/                  # Static files
+├── tsconfig.json            # TypeScript configuration
+├── tsconfig.node.json       # TypeScript config for Node files
+├── vite.config.ts           # Vite configuration
+├── eslint.config.js         # ESLint configuration
 ├── package.json             # Dependencies and scripts
 └── README.md               # This file
 ```
 
 ## Available Scripts
+
 ```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Run ESLint
+npm run dev         # Start development server with hot reload
+npm run build       # Build for production (runs type-check first)
+npm run preview     # Preview production build locally
+npm run lint        # Run ESLint to check code quality
+npm run type-check  # Run TypeScript type checking without emitting files
 ```
 
-## Making Changes
+## Features
 
-1. The main 3D globe code is in `src/components/Globe.jsx`
-2. Edit the file and save
-3. The browser will automatically reload with your changes (Hot Module Replacement)
+✨ **Interactive 3D Globe**
+- Realistic Earth visualization with texture mapping
+- Smooth camera controls (rotate, zoom, pan)
+- Starfield background
+
+🌋 **Real-time Earthquake Data**
+- Fetches live data from USGS API
+- Color-coded by magnitude
+- Interactive earthquake markers
+- Detailed information panels
+
+🎯 **Type-Safe Development**
+- Full TypeScript support
+- Autocomplete and IntelliSense
+- Catch errors during development
+
+⚡ **Fast Development**
+- Vite's lightning-fast HMR (Hot Module Replacement)
+- Instant feedback on code changes
 
 ## Controls
 
-- **Left Mouse Button + Drag:** Rotate the globe
+- **Left Mouse + Drag:** Rotate the globe
 - **Mouse Wheel:** Zoom in/out
-- **Right Mouse Button + Drag:** Pan the camera
+- **Right Mouse + Drag:** Pan the camera
+- **Click Earthquake Marker:** View details
 
-## Need Help?
+## Making Changes
 
-- Three.js Documentation: https://threejs.org/docs/
-- React Documentation: https://react.dev/
-- Vite Documentation: https://vite.dev/
+1. All source code is in the `src/` directory
+2. Main globe logic is in `src/components/Globe.tsx`
+3. Edit any `.tsx` or `.ts` file and save
+4. The browser will automatically reload with your changes
+5. TypeScript will warn you of any type errors in your editor
+
+## TypeScript Benefits
+
+This project uses TypeScript for:
+- **Type safety** - Catch errors before runtime
+- **Better IDE support** - Autocomplete for Three.js, React, and more
+- **Self-documenting code** - Types serve as inline documentation
+- **Easier refactoring** - Rename and restructure with confidence
+
+## Common Issues & Solutions
+
+### ❌ "npm is not recognized"
+**Solution:** Node.js is not installed or not in your PATH. Reinstall Node.js and restart your terminal.
+
+### ❌ Port 5173 is already in use
+**Solution:** Vite will automatically use the next available port (5174, 5175, etc.)
+
+### ❌ Module not found errors
+**Solution:** Delete `node_modules` folder and `package-lock.json`, then run:
+```bash
+npm install
+```
+
+### ❌ TypeScript errors
+**Solution:** Run type checking to see all errors:
+```bash
+npm run type-check
+```
+
+### ❌ Three.js type errors
+**Solution:** Make sure type definitions are installed:
+```bash
+npm install -D @types/three
+```
+
+## Resources & Documentation
+
+- **Three.js Docs:** https://threejs.org/docs/
+- **React Docs:** https://react.dev/
+- **TypeScript Docs:** https://www.typescriptlang.org/docs/
+- **Vite Docs:** https://vitejs.dev/
+- **USGS Earthquake API:** https://earthquake.usgs.gov/fdsnws/event/1/
+
+## Contributing
+
+1. Create a new branch for your feature
+2. Make your changes
+3. Run `npm run type-check` to ensure no TypeScript errors
+4. Run `npm run lint` to check code quality
+5. Test your changes with `npm run dev`
+6. Submit a pull request
+
+## License
+
+[Add your license here]
 
 ---
 
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Built with ❤️ using React, TypeScript, and Three.js
