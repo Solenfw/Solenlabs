@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.tsx';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 // Textures
 import earthCloudsTransparent from '../assets/images/earthcloudmaptrans.jpg';
@@ -13,17 +13,17 @@ import nightMapTexture from '../assets/images/earth-nightmap.jpg';
 import geoJsonData from '../assets/geojson/ne_50m_countries.json';
 
 // Hooks
-import { drawThreeGeo } from '../hooks/getThreeGeoJSON.tsx';
-import { getStarfield } from '../hooks/getStarField.tsx';
-import { getFresnelMat } from '../hooks/getFresnelMat.tsx';
-import { useEarthquakes } from '../hooks/useEarthquakes.tsx';
+import { drawThreeGeo } from '../hooks/getThreeGeoJSON';
+import { getStarfield } from '../hooks/getStarField';
+import { getFresnelMat } from '../hooks/getFresnelMat';
+import { useEarthquakes } from '../hooks/useEarthquakes';
 
 // Utils
-import { drawEarthQuakePoint } from '../utils/earthquakeUtils.tsx';
-import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale.tsx';
+import { drawEarthQuakePoint } from '../utils/earthquakeUtils';
+import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale';
 
 // Shaders
-import { nightLightsShader } from '../shaders/nightLightShader.tsx'; 
+import { nightLightsShader } from '../shaders/nightLightShader'; 
 
 const Globe = () => {
   const mountRef = useRef<HTMLDivElement>(null);

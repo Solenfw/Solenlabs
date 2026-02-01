@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.tsx";
-import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.tsx";
-import { Line2 } from "three/examples/jsm/lines/Line2.tsx";
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
+import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
+import { Line2 } from "three/examples/jsm/lines/Line2.js";
 
 /* Draw GeoJSON
 
