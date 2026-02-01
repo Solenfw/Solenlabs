@@ -1,196 +1,171 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef } from 'react';
+import { useMemo, useRef, forwardRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.tsx';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, useTexture } from '@react-three/drei';
+import { useControls } from 'leva';
 
 // Textures
-import earthCloudsTransparent from '../assets/images/earthcloudmaptrans.jpg';
-import earthCloudsTexture from '../assets/images/earth-cloud.jpg';
-import earthSpecTexture from '../assets/images/earthspecs.jpg';
-import earthBumpTexture from '../assets/images/earth-bump.jpg';
-import dayMapTexture from '../assets/images/earth-daymap.jpg';
-import nightMapTexture from '../assets/images/earth-nightmap.jpg';
+import earthCloudsTransparent from '../assets/textures/earthcloudmaptrans.jpg';
+import earthCloudsTexture from '../assets/textures/earth-cloud.jpg';
+import earthSpecTexture from '../assets/textures/earthspecs.jpg';
+import earthBumpTexture from '../assets/textures/earth-bump.jpg';
+import dayMapTexture from '../assets/textures/earth-daymap.jpg';
+import nightMapTexture from '../assets/textures/earth-nightmap.jpg';
 import geoJsonData from '../assets/geojson/ne_50m_countries.json';
 
 // Hooks
-import { drawThreeGeo } from '../hooks/getThreeGeoJSON.tsx';
-import { getStarfield } from '../hooks/getStarField.tsx';
-import { getFresnelMat } from '../hooks/getFresnelMat.tsx';
-import { useEarthquakes } from '../hooks/useEarthquakes.tsx';
+import { drawThreeGeo } from '../hooks/getThreeGeoJSON';
+import { getStarfield } from '../hooks/getStarField';
+import { getFresnelMat } from '../hooks/getFresnelMat';
+import { useEarthquakes } from '../hooks/useEarthquakes';
 
 // Utils
-import { drawEarthQuakePoint } from '../utils/earthquakeUtils.tsx';
-import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale.tsx';
+import { drawEarthQuakePoint } from '../utils/earthquakeUtils';
+import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale';
 
 // Shaders
-import { nightLightsShader } from '../shaders/nightLightShader.tsx'; 
+import { nightLightsShader } from '../shaders/nightLightShader';
+
+// UI Components
+import { HomeButton } from './UI/homeButton';
+
+const Countries = () => {
+  const countries = useMemo(() => drawThreeGeo({
+    json: geoJsonData,
+    radius: 1.0,
+    materialOptions: { color: 0x00ff00, opacity: 0.2 }
+  }), []);
+  return <primitive object={countries} />;
+};
+
+const EarthMesh = () => {
+  const [dayMap, spec, bump] = useTexture([dayMapTexture, earthSpecTexture, earthBumpTexture]);
+  return (
+    <mesh>
+      <sphereGeometry args={[1, 64, 64]} />
+      <meshPhongMaterial map={dayMap} specularMap={spec} bumpMap={bump} bumpScale={0.04} />
+    </mesh>
+  );
+};
+
+const NightLights = ({ sunDirection } : { sunDirection: number[] }) => {
+  const [dayTex, nightTex] = useTexture([dayMapTexture, nightMapTexture]);
+  const uniforms = useMemo(() => ({
+    sunDirection: { value: new THREE.Vector3(...sunDirection) },
+    dayTexture: { value: dayTex },
+    nightTexture: { value: nightTex }
+  }), [dayTex, nightTex, sunDirection]);
+  return (
+    <mesh>
+      <sphereGeometry args={[1, 64, 64]} />
+      <shaderMaterial
+        uniforms={uniforms}
+        vertexShader={nightLightsShader.vertexShader}
+        fragmentShader={nightLightsShader.fragmentShader}
+        blending={THREE.AdditiveBlending}
+        transparent
+      />
+    </mesh>
+  );
+};
+
+const Clouds = forwardRef((_props, ref) => {
+  const [cloudMap, alphaMap] = useTexture([earthCloudsTexture, earthCloudsTransparent]);
+  return (
+    <mesh ref={ref} scale={1.003}>
+      <sphereGeometry args={[1, 64, 64]} />
+      <meshStandardMaterial
+        map={cloudMap}
+        transparent
+        opacity={0.8}
+        blending={THREE.AdditiveBlending}
+        alphaMap={alphaMap}
+      />
+    </mesh>
+  );
+});
+
+const Glow = () => {
+  const material = useMemo(() => getFresnelMat(), []);
+  return (
+    <mesh scale={1.01}>
+      <sphereGeometry args={[1, 64, 64]} />
+      <primitive object={material} attach="material" />
+    </mesh>
+  );
+};
+
+const EarthquakeMarkers = ({ earthquakes } : { earthquakes: any[] }) => {
+  return (
+    <>
+      {earthquakes.map((eq, index) => {
+        const lat = eq.geometry.coordinates[1];
+        const lon = eq.geometry.coordinates[0];
+        const mag = eq.properties.mag;
+        const marker = drawEarthQuakePoint(lat, lon, { 
+          size: magnitudeToSize(mag),
+          color: magnitudeToColor(mag),
+        });
+        return <primitive key={index} object={marker} />;
+      })}
+    </>
+  );
+};
+
+const Earth = ({ controls, earthquakes } : { controls: any, earthquakes: any[] }) => {
+  const groupRef = useRef<THREE.Group>(null);
+  const cloudsRef = useRef<THREE.Mesh>(null);
+
+  useFrame(() => {
+    if (groupRef.current) groupRef.current.rotation.y += controls.earthRotationSpeed;
+    if (cloudsRef.current) cloudsRef.current.rotation.y += controls.cloudsRotationSpeed;
+  });
+
+  return (
+    <group ref={groupRef} rotation={[0, 0, -23.4 * Math.PI / 180]}>
+      <Countries />
+      <EarthMesh />
+      <NightLights sunDirection={controls.sunDirection} />
+      <Clouds ref={cloudsRef} />
+      <Glow />
+      <EarthquakeMarkers earthquakes={earthquakes} />
+    </group>
+  );
+};
+
+const Stars = ({ controls } : { controls: any }) => {
+  const starsRef = useRef<THREE.Mesh>(null);
+  const stars = useMemo(() => getStarfield({ numStars: 2000 }), []);
+
+  useFrame(() => {
+    if (starsRef.current) starsRef.current.rotation.y -= controls.starsRotationSpeed;
+  });
+
+  return <primitive ref={starsRef} object={stars} />;
+};
 
 const Globe = () => {
-  const mountRef = useRef<HTMLDivElement>(null);
-  const earthGroupRef = useRef<THREE.Group>(null); 
-  const markersRef = useRef<THREE.Mesh[]>([]);
-  const {
-    earthquakes,
-  } = useEarthquakes();
-  
-  useEffect(() => {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    
-    // Scene setup
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 1000);
-    camera.position.z = 8;
-    
-    // Renderer setup
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(w, h);
-    if (mountRef.current) {
-      mountRef.current.appendChild(renderer.domElement);
-    }
-    
-    // Camera controls
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.minDistance = 2;
-    controls.maxDistance = 20;
-    controls.enablePan = false;
-    
-    // Texture loader
-    const loader = new THREE.TextureLoader();
-    const geometry = new THREE.SphereGeometry(1, 64, 64);
-    
-    // Earth group with axial tilt
-    const earthGroup = new THREE.Group();
-    earthGroup.rotation.z = -23.4 * Math.PI / 180;
-    scene.add(earthGroup);
+  const { earthquakes } = useEarthquakes();
+  const controls = useControls({
+    earthRotationSpeed: { value: 0.001, min: 0, max: 0.01 },
+    cloudsRotationSpeed: { value: 0.0005, min: 0, max: 0.01 },
+    starsRotationSpeed: { value: 0.0001, min: 0, max: 0.01 },
+    sunDirection: { value: [-1.5, 1.5, 0.5] },
+  });
 
-    earthGroupRef.current = earthGroup;
-
-    // GeoJSON countries overlay layer - rotatig with Earth
-    const countries = drawThreeGeo({
-      json: geoJsonData,
-      radius: 1.0,
-      materialOptions: { color: 0x00ff00, opacity: 0.2 }
-    });
-    earthGroup.add(countries);
-
-    // Main Earth mesh with day texture
-    const earthMaterial = new THREE.MeshPhongMaterial({
-      map: loader.load(dayMapTexture),
-      specularMap: loader.load(earthSpecTexture),
-      bumpMap: loader.load(earthBumpTexture),
-      bumpScale: 0.04,
-    });
-    const earthMesh = new THREE.Mesh(geometry, earthMaterial);
-    earthGroup.add(earthMesh);
-  
-    // Night lights layer using custom shader
-    const uniforms = {
-      sunDirection: {value: new THREE.Vector3(-1.5,1.5,0.5) }, // approximate sun direction
-      dayTexture: { value: loader.load( dayMapTexture ) },
-      nightTexture: { value: loader.load( nightMapTexture ) }
-    };
-
-    const lightsMaterial = new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      vertexShader: nightLightsShader.vertexShader,
-      fragmentShader: nightLightsShader.fragmentShader,
-      blending: THREE.AdditiveBlending,
-      transparent: true,
-    });
-
-    const lightsMesh = new THREE.Mesh(geometry, lightsMaterial);
-    earthGroup.add(lightsMesh);
-
-    // Clouds layer
-    const cloudsMaterial = new THREE.MeshStandardMaterial({
-      map: loader.load(earthCloudsTexture),
-      transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending,
-      alphaMap: loader.load(earthCloudsTransparent),
-    });
-    const cloudsMesh = new THREE.Mesh(geometry, cloudsMaterial);
-    cloudsMesh.scale.setScalar(1.003);
-    earthGroup.add(cloudsMesh);
-
-    // Atmospheric glow
-    const glowMesh = new THREE.Mesh(geometry, getFresnelMat());
-    glowMesh.scale.setScalar(1.01);
-    earthGroup.add(glowMesh);
-
-    // Lighting setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
-    scene.add(ambientLight);
-
-    // Starfield background
-    const stars = getStarfield({ numStars: 2000 });
-    scene.add(stars);
-
-    // Animation loop
-    function animate() {
-      requestAnimationFrame(animate);
-      
-      earthGroup.rotation.y += 0.001;
-      cloudsMesh.rotation.y += 0.0005; // Additional rotation to maintain the original clouds speed (total 0.0015)
-      stars.rotation.y -= 0.0001;
-
-      renderer.render(scene, camera);
-      controls.update();
-    }
-    animate();
-    
-    // Handle window resize
-    const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener('resize', handleResize);
-    
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []); 
-
-  useEffect(() => {
-    const group = earthGroupRef.current;
-    
-    if (!group || !earthquakes|| earthquakes.length === 0) return;
-
-    // Remove existing markers
-    markersRef.current.forEach(marker => {
-      group.remove(marker);
-      marker.geometry.dispose();
-      if (Array.isArray(marker.material)) {
-        marker.material.forEach(mat => mat.dispose());
-      } else {
-        marker.material.dispose();
-      }
-    });
-    markersRef.current = [];
-    
-    // Add new markers
-    earthquakes.forEach((eq: any) => {
-      const lat = eq.geometry.coordinates[1];
-      const lon = eq.geometry.coordinates[0];
-      const mag = eq.properties.mag;
-
-      const marker = drawEarthQuakePoint(lat, lon, { 
-        size: magnitudeToSize(mag),
-        color: magnitudeToColor(mag),
-      });
-      if (marker) {
-        group.add(marker);
-        markersRef.current.push(marker);
-      }
-    });
-  }, [earthquakes]);    // Update earthquake markers when data changes
-  
-  return <div ref={mountRef} />; 
+  return (
+    <div className="w-full h-screen bg-black relative">
+      <HomeButton />
+      <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+        <Earth controls={controls} earthquakes={earthquakes} />
+        <Stars controls={controls} />
+        <ambientLight intensity={0.01} />
+        <directionalLight position={[1, 1, 1]} intensity={0.5} />
+        <OrbitControls enableDamping minDistance={2} maxDistance={20} enablePan={false} />
+      </Canvas>
+    </div>
+  );
 };
 
 export default Globe;
