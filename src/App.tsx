@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import Globe from './components/Globe';
+import Globe from './components/Globe.tsx';
 
 function App() {
   return (

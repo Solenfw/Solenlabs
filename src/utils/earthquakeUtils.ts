@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 /**
  * Convert lat/lon to 3D sphere coordinates
  */
-export const latLonToVector3 = (lat, lon, radius = 2) => {
+export const latLonToVector3 = (lat : number, lon: number, radius = 2) => {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lon + 180) * (Math.PI / 180);
 
@@ -18,14 +18,14 @@ export const latLonToVector3 = (lat, lon, radius = 2) => {
 /**
  * Format earthquake time
  */
-export const formatEarthquakeTime = (timestamp) => {
+export const formatEarthquakeTime = (timestamp: number) => {
   return format(new Date(timestamp), 'MMM dd, yyyy HH:mm:ss');
 };
 
 /**
  * Calculate time ago from timestamp
  */
-export const timeAgo = (timestamp) => {
+export const timeAgo = (timestamp: number) => {
   const now = Date.now();
   const diff = now - timestamp;
   
@@ -41,7 +41,7 @@ export const timeAgo = (timestamp) => {
 /**
  * Get statistics from earthquake data
  */
-export const getEarthquakeStats = (earthquakes) => {
+export const getEarthquakeStats = (earthquakes: any[]) => {
   if (!earthquakes || earthquakes.length === 0) {
     return {
       total: 0,
@@ -75,14 +75,11 @@ export const getEarthquakeStats = (earthquakes) => {
 /**
  * Earthquake points on globe - Spherical shape
  */
-export const drawEarthQuakePoint = (lat, lon, options = {size, color}) => {
+export const drawEarthQuakePoint = (lat: number, lon: number, options = {size: 0.05, color: 0xff0000}) => {
   const { x, y, z } = latLonToVector3(lat, lon, 1.08); // Slightly above the Earth surface
-  
-  const color = options.color || 0xff0000;
-  const size = options.size || 0.05; 
 
-  const geometry = new THREE.IcosahedronGeometry(size, 4);
-  const material = new THREE.MeshBasicMaterial({ color }); // Use the passed-in color
+  const geometry = new THREE.IcosahedronGeometry(options.size, 4);
+  const material = new THREE.MeshBasicMaterial({ color: options.color }); // Use the passed-in color
   
   const pointMesh = new THREE.Mesh(geometry, material);
   pointMesh.position.set(x, y, z);

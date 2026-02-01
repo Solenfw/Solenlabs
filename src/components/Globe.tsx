@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.tsx';
 
 // Textures
 import earthCloudsTransparent from '../assets/images/earthcloudmaptrans.jpg';
@@ -13,30 +13,24 @@ import nightMapTexture from '../assets/images/earth-nightmap.jpg';
 import geoJsonData from '../assets/geojson/ne_50m_countries.json';
 
 // Hooks
-import { getLayer } from "../hooks/getLayer";
-import { drawThreeGeo } from '../hooks/getThreeGeoJSON';
-import { getStarfield } from '../hooks/getStarField';
-import { getFresnelMat } from '../hooks/getFresnelMat';
-import { useEarthquakes } from '../hooks/useEarthquakes';
+import { drawThreeGeo } from '../hooks/getThreeGeoJSON.tsx';
+import { getStarfield } from '../hooks/getStarField.tsx';
+import { getFresnelMat } from '../hooks/getFresnelMat.tsx';
+import { useEarthquakes } from '../hooks/useEarthquakes.tsx';
 
 // Utils
-import { drawEarthQuakePoint } from '../utils/earthquakeUtils';
-import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale';
+import { drawEarthQuakePoint } from '../utils/earthquakeUtils.tsx';
+import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale.tsx';
 
 // Shaders
-import { nightLightsShader } from '../shaders/nightLightShader'; 
-
-// Constants
-import { MAG_THRESHOLDS, TIME_RANGES } from '../services/earthquakeAPI';
+import { nightLightsShader } from '../shaders/nightLightShader.tsx'; 
 
 const Globe = () => {
-  const mountRef = useRef(null);
-  const earthGroupRef = useRef(null); 
-  const markersRef = useRef([]);
+  const mountRef = useRef<HTMLDivElement>(null);
+  const earthGroupRef = useRef<THREE.Group>(null); 
+  const markersRef = useRef<THREE.Mesh[]>([]);
   const {
     earthquakes,
-    setTimeRange,
-    setMagThreshold
   } = useEarthquakes();
   
   useEffect(() => {
@@ -52,7 +46,9 @@ const Globe = () => {
     const renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(w, h);
-    mountRef.current.appendChild(renderer.domElement);
+    if (mountRef.current) {
+      mountRef.current.appendChild(renderer.domElement);
+    }
     
     // Camera controls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -78,7 +74,7 @@ const Globe = () => {
       radius: 1.0,
       materialOptions: { color: 0x00ff00, opacity: 0.2 }
     });
-    // earthGroup.add(countries);
+    earthGroup.add(countries);
 
     // Main Earth mesh with day texture
     const earthMaterial = new THREE.MeshPhongMaterial({
@@ -169,19 +165,23 @@ const Globe = () => {
     markersRef.current.forEach(marker => {
       group.remove(marker);
       marker.geometry.dispose();
-      marker.material.dispose();
+      if (Array.isArray(marker.material)) {
+        marker.material.forEach(mat => mat.dispose());
+      } else {
+        marker.material.dispose();
+      }
     });
     markersRef.current = [];
     
     // Add new markers
-    earthquakes.forEach(eq => {
+    earthquakes.forEach((eq: any) => {
       const lat = eq.geometry.coordinates[1];
       const lon = eq.geometry.coordinates[0];
       const mag = eq.properties.mag;
 
       const marker = drawEarthQuakePoint(lat, lon, { 
+        size: magnitudeToSize(mag),
         color: magnitudeToColor(mag),
-        size: magnitudeToSize(mag)
       });
       if (marker) {
         group.add(marker);
