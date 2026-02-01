@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchEarthquakes, TIME_RANGES, MAG_THRESHOLDS } from '../services/earthquakeAPI.tsx';
+import { fetchEarthquakes, TIME_RANGES, MAG_THRESHOLDS } from '../services/earthquakeAPI.ts';
 
 export const useEarthquakes = () => { 
   const [earthquakes, setEarthquakes] = useState([]);
