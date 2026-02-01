@@ -27,6 +27,9 @@ import { magnitudeToColor, magnitudeToSize } from '../utils/colorScale';
 // Shaders
 import { nightLightsShader } from '../shaders/nightLightShader';
 
+// UI Components
+import { HomeButton } from './UI/homeButton';
+
 const Countries = () => {
   const countries = useMemo(() => drawThreeGeo({
     json: geoJsonData,
@@ -152,7 +155,8 @@ const Globe = () => {
   });
 
   return (
-    <div className="w-full h-screen bg-black">
+    <div className="w-full h-screen bg-black relative">
+      <HomeButton />
       <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
         <Earth controls={controls} earthquakes={earthquakes} />
         <Stars controls={controls} />
