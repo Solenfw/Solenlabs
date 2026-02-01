@@ -152,12 +152,15 @@ const Globe = () => {
   });
 
   return (
-    <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-      <Earth controls={controls} earthquakes={earthquakes} />
-      <Stars controls={controls} />
-      <ambientLight intensity={0.01} />
-      <OrbitControls enableDamping minDistance={2} maxDistance={20} enablePan={false} />
-    </Canvas>
+    <div className="w-full h-screen bg-black">
+      <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+        <Earth controls={controls} earthquakes={earthquakes} />
+        <Stars controls={controls} />
+        <ambientLight intensity={0.01} />
+        <directionalLight position={[1, 1, 1]} intensity={0.5} />
+        <OrbitControls enableDamping minDistance={2} maxDistance={20} enablePan={false} />
+      </Canvas>
+    </div>
   );
 };
 
