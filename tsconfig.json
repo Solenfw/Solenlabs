@@ -28,7 +28,8 @@
       "@constants/*": ["constants/*"],
       "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],
-      "@shaders/*": ["shaders/*"]
+      "@shaders/*": ["shaders/*"],
+      "@services/*": ["services/*"]
     }
   },
   "include": ["src"],

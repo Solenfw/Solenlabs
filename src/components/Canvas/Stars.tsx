@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { getStarfield } from '../../hooks/getStarField';
+import { getStarfield } from '@hooks/getStarField';
 
 
 const Stars = ({ controls } : { controls: any }) => {

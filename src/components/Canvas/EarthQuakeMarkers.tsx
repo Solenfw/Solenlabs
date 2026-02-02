@@ -1,5 +1,5 @@
-import { drawEarthQuakePoint } from '../../utils/earthquakeUtils';
-import { magnitudeToColor, magnitudeToSize } from '../../utils/colorScale';
+import { drawEarthQuakePoint } from '@utils/earthquakeUtils';
+import { magnitudeToColor, magnitudeToSize } from '@utils/colorScale';
 
 
 

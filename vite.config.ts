@@ -32,6 +32,8 @@ export default defineConfig({
       '@constants': path.resolve(__dirname, 'src/constants/'),
       '@assets': path.resolve(__dirname, 'src/assets/'),
       '@utils': path.resolve(__dirname, 'src/utils/'),
+      '@shaders': path.resolve(__dirname, 'src/shaders/'),
+      '@services': path.resolve(__dirname, 'src/services/'),
     },
   },
 })

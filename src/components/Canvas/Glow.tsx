@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getFresnelMat } from '../../hooks/getFresnelMat';
+import { getFresnelMat } from '@hooks/getFresnelMat';
 
 
 const Glow = () => {

@@ -3,7 +3,7 @@ import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Shaders
-import { nightLightsShader } from '../../shaders/nightLightShader';
+import { nightLightsShader } from '@shaders/nightLightShader';
 
 
 const NightLights = ({ sunDirection, dayMapTexture, nightMapTexture } : { sunDirection: number[], dayMapTexture: string, nightMapTexture: string }) => {
