@@ -17,3 +17,7 @@ src/assets/textures/solarSystem/2k_stars_milky_way.jpg filter=lfs diff=lfs merge
 src/assets/textures/solarSystem/2k_saturn_ring_alpha.png filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
+public/* filter=lfs diff=lfs merge=lfs -text
+public/** filter=lfs diff=lfs merge=lfs -text
+public/geojson/* filter=lfs diff=lfs merge=lfs -text
+public/geojson/*.json filter=lfs diff=lfs merge=lfs -text
