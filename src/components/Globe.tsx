@@ -18,7 +18,8 @@ import OptionsPanel from './UI/OptionsPanel';
 
 
 const Globe = () => {
-  const { earthquakes } = useEarthquakes();
+  const earthquakeData = useEarthquakes();
+  
   const controls = useControls({
     earthRotationSpeed: { value: 0.001, min: 0, max: 0.01 },
     cloudsRotationSpeed: { value: 0.0005, min: 0, max: 0.01 },
@@ -27,16 +28,13 @@ const Globe = () => {
   });
 
   return (
-
     <div className="w-full h-screen bg-black relative">
       <Loader />
       <HomeButton />
-
-      <OptionsPanel />
-
+      <OptionsPanel earthquakeData={earthquakeData} />
       <Suspense fallback={null}>
         <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-          <Earth controls={controls} earthquakes={earthquakes} />
+          <Earth controls={controls} earthquakes={earthquakeData.earthquakes} />
           <Stars controls={controls} />
           <ambientLight intensity={0.0005} />
           <directionalLight position={[1, 1, 1]} intensity={1.2} />

@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import { MAG_THRESHOLDS, TIME_RANGES } from '@constants/api_constants';
-import { useEarthquakes } from '@hooks/useEarthquakes';
 
 
-const OptionsPanel = () => {
+interface OptionsPanelProps {
+  earthquakeData: ReturnType<typeof import('@hooks/useEarthquakes').useEarthquakes>;
+}
+
+const OptionsPanel = ({ earthquakeData }: OptionsPanelProps) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
     const {
@@ -16,7 +19,7 @@ const OptionsPanel = () => {
         setTimeRange,
         setMagThreshold,
         refresh
-    } = useEarthquakes();
+    } = earthquakeData;
 
     const timeRangeOptions = [
         { label: 'Past Hour', value: TIME_RANGES.HOUR },

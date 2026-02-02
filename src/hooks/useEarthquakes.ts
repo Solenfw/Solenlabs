@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { TIME_RANGES, MAG_THRESHOLDS } from '@constants/api_constants';
 import { fetchEarthquakes } from '@services/earthquakeAPI';
 
 export const useEarthquakes = () => { 
   const [earthquakes, setEarthquakes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);  // ✅ Changed to false initially
   const [error, setError] = useState(null);
   const [timeRange, setTimeRange] = useState(TIME_RANGES.DAY);
   const [magThreshold, setMagThreshold] = useState(MAG_THRESHOLDS.ALL);
@@ -23,17 +23,9 @@ export const useEarthquakes = () => {
     } finally {
       setLoading(false);
     }
-  }, [timeRange, magThreshold]);
+  }, [timeRange, magThreshold]); 
 
-  useEffect(() => {
-    loadEarthquakes();
-    
-    // Auto-refresh every 5 minutes
-    const interval = setInterval(loadEarthquakes, 5 * 60 * 1000);
-    
-    return () => clearInterval(interval);
-  }, [loadEarthquakes]);
-
+  
   return {
     earthquakes,
     loading,
