@@ -14,6 +14,7 @@ import Stars from './Canvas/Stars';
 import { HomeButton } from './UI/homeButton';
 import { Loader } from './UI/Loader';
 import { Suspense } from 'react';
+import OptionsPanel from './UI/OptionsPanel';
 
 
 const Globe = () => {
@@ -30,13 +31,20 @@ const Globe = () => {
     <div className="w-full h-screen bg-black relative">
       <Loader />
       <HomeButton />
+
+      <OptionsPanel />
+
       <Suspense fallback={null}>
         <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
           <Earth controls={controls} earthquakes={earthquakes} />
           <Stars controls={controls} />
           <ambientLight intensity={0.0005} />
           <directionalLight position={[1, 1, 1]} intensity={1.2} />
-          <OrbitControls enableDamping minDistance={2} maxDistance={20} enablePan={false} />
+          <OrbitControls 
+            enableDamping minDistance={2} 
+            maxDistance={20} 
+            enablePan={false} 
+          />
         </Canvas>
       </Suspense>
     </div>

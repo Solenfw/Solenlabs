@@ -1,23 +1,6 @@
 import axios from 'axios';
-
+import { MAG_THRESHOLDS, TIME_RANGES } from '@constants/api_constants';
 const BASE_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary';
-
-// Available time ranges
-export const TIME_RANGES = {
-  HOUR: 'hour',
-  DAY: 'day',
-  WEEK: 'week',
-  MONTH: 'month'
-};
-
-// Available magnitude thresholds
-export const MAG_THRESHOLDS = {
-  ALL: 'all',
-  M1: '1.0',
-  M2_5: '2.5',
-  M4_5: '4.5',
-  SIGNIFICANT: 'significant'
-};
 
 /**
  * Fetch earthquakes from USGS API
