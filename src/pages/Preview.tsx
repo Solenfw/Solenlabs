@@ -1,6 +1,6 @@
 import { ImageWithFallback } from '../components/ImageWithFallBack';
 import { Link } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Preview() {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
@@ -30,7 +30,28 @@ export default function Preview() {
     setIsDragging(false);
   };
 
-  // Planet data with orbital properties
+  // Planet data with orbital properties (base values are reference px at a 2000px solar system)
+  const baseReference = 2000; // original design was based on a 2000x2000 container
+
+  // viewport state + resize listener so sizes update responsively
+  const [viewport, setViewport] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : baseReference,
+    height: typeof window !== 'undefined' ? window.innerHeight : baseReference,
+  });
+
+  useEffect(() => {
+    const onResize = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  // scale factor derived from the smaller viewport dimension relative to the design reference
+  const scale = Math.min(viewport.width, viewport.height) / baseReference;
+  const solarSystemSize = Math.max(600, baseReference * scale); // keep a reasonable minimum
+  const sunBaseSize = 128; // base sun size used in original design
+  const sunSize = Math.max(48, Math.round(sunBaseSize * scale));
+
+  // Base planet definitions (sizes/orbits are reference px values)
   const planets = [
     { 
       name: 'Mercury', 
@@ -98,6 +119,13 @@ export default function Preview() {
     },
   ];
 
+  // derived scaled planets used for rendering (px sizes for this viewport)
+  const scaledPlanets = planets.map(p => ({
+    ...p,
+    sizePx: Math.max(6, Math.round(p.size * scale)),
+    orbitRadiusPx: Math.max(30, Math.round(p.orbitRadius * scale)),
+  }));
+
   return (
     <div className="relative h-screen overflow-hidden bg-black">
       {/* Space Background */}
@@ -139,13 +167,13 @@ export default function Preview() {
         </div>
 
         {/* Right Side - Solar System */}
-        <div className="flex items-center justify-center" style={{marginLeft: '-300px'}}>
+        <div className="items-center justify-center" style={{marginLeft: `-${solarSystemSize}px`}}>
           <div 
             className="relative select-none"
             style={{ 
-              width: '2000px', 
-              height: '2000px',
-              perspective: '2000px',
+              width: `${solarSystemSize}px`, 
+              height: `${solarSystemSize}px`,
+              perspective: `${Math.max(800, solarSystemSize)}px`,
               cursor: isDragging ? 'grabbing' : 'grab'
             }}
             onMouseDown={handleMouseDown}
@@ -164,14 +192,16 @@ export default function Preview() {
             >
               {/* Sun in the center */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                <div className="relative size-32">
+                <div className="relative" style={{ width: `${sunSize}px`, height: `${sunSize}px` }}>
                   {/* Sun glow */}
                   <div className="absolute inset-0 rounded-full bg-yellow-500/60 blur-2xl animate-pulse" />
                   <div className="absolute -inset-5 rounded-full bg-orange-500/40 blur-3xl animate-pulse" style={{ animationDuration: '3s' }} />
                   
                   {/* Sun */}
-                  <div className="relative size-32 rounded-full overflow-hidden shadow-2xl" style={{
+                  <div className="relative rounded-full overflow-hidden shadow-2xl" style={{
                     boxShadow: '0 0 40px rgba(255, 200, 0, 0.8), inset -8px -8px 20px rgba(0, 0, 0, 0.3)',
+                    width: `${sunSize}px`,
+                    height: `${sunSize}px`
                   }}>
                     <ImageWithFallback
                       src="https://images.unsplash.com/photo-1614642264762-d0a3b8bf3700?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdW4lMjBzdGFyJTIwc29sYXJ8ZW58MXx8fHwxNzY5ODg1MDcyfDA&ixlib=rb-4.1.0&q=80&w=1080"
@@ -191,14 +221,14 @@ export default function Preview() {
               </div>
 
               {/* Planets orbiting */}
-              {planets.map((planet) => (
+              {scaledPlanets.map((planet) => (
                 <div key={planet.name}>
                   {/* Orbital path */}
                   <div 
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/10"
                     style={{
-                      width: `${planet.orbitRadius * 2}px`,
-                      height: `${planet.orbitRadius * 2}px`,
+                      width: `${planet.orbitRadiusPx * 2}px`,
+                      height: `${planet.orbitRadiusPx * 2}px`,
                     }}
                   />
                   
@@ -206,14 +236,14 @@ export default function Preview() {
                   <div
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     style={{
-                      width: `${planet.orbitRadius * 2}px`,
-                      height: `${planet.orbitRadius * 2}px`,
+                      width: `${planet.orbitRadiusPx * 2}px`,
+                      height: `${planet.orbitRadiusPx * 2}px`,
                       animation: `orbit ${planet.duration}s linear infinite`,
                     }}
                   >
                     <div
                       className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                      style={{ width: `${planet.size}px`, height: `${planet.size}px` }}
+                      style={{ width: `${planet.sizePx}px`, height: `${planet.sizePx}px` }}
                     >
                       {/* Planet glow */}
                       <div 
@@ -223,7 +253,7 @@ export default function Preview() {
                       
                       {/* Planet */}
                       <div className="relative size-full rounded-full overflow-hidden" style={{
-                        boxShadow: `0 0 20px ${planet.color}80, inset -${planet.size * 0.2}px -${planet.size * 0.2}px ${planet.size * 0.4}px rgba(0, 0, 0, 0.6)`,
+                        boxShadow: `0 0 20px ${planet.color}80, inset -${planet.sizePx * 0.2}px -${planet.sizePx * 0.2}px ${planet.sizePx * 0.4}px rgba(0, 0, 0, 0.6)`,
                       }}>
                         <ImageWithFallback
                           src={planet.image}
