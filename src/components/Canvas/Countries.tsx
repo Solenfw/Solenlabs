@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { drawThreeGeo } from '../../hooks/getThreeGeoJSON';
-import geoJsonData from '../../assets/geojson/ne_50m_countries.json';
+import { drawThreeGeo } from '@hooks/getThreeGeoJSON';
+import geoJsonData from '@assets/geojson/ne_50m_countries.json';
 
 const Countries = () => {
   const countries = useMemo(() => drawThreeGeo({

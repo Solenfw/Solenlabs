@@ -4,7 +4,7 @@ import { OrbitControls } from '@react-three/drei';
 import { useControls } from 'leva';
 
 // Hooks
-import { useEarthquakes } from '../hooks/useEarthquakes';
+import { useEarthquakes } from '@hooks/useEarthquakes';
 
 // canvas components
 import Earth from './Canvas/Earth';
