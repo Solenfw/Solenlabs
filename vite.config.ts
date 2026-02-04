@@ -29,7 +29,7 @@ export default defineConfig({
     alias: {
       '@components': path.resolve(__dirname, 'src/components'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
-      '@constants': path.resolve(__dirname, 'src/constants'),
+      '@constants': path.resolve(__dirname, 'src/constants/assets'),
       '@assets': path.resolve(__dirname, 'src/assets'),
       '@utils': path.resolve(__dirname, 'src/utils'),
       '@shaders': path.resolve(__dirname, 'src/shaders'),

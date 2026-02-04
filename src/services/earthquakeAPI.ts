@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MAG_THRESHOLDS, TIME_RANGES } from '@constants/api_constants';
+import { MAG_THRESHOLDS, TIME_RANGES } from '@constants/apis';
 const BASE_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary';
 
 /**

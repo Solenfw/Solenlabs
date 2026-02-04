@@ -8,7 +8,7 @@ import Glow from './Glow';
 import EarthquakeMarkers from './EarthQuakeMarkers';
 
 // constants
-import { EARTH_MAPS } from '@constants/earth_textures';
+import { Textures } from '@constants';
 
 const Earth = ({ controls, earthquakes } : { controls: any, earthquakes: any[] }) => {
   const groupRef = useRef<THREE.Group>(null);
@@ -22,12 +22,12 @@ const Earth = ({ controls, earthquakes } : { controls: any, earthquakes: any[] }
   return (
     <group ref={groupRef} rotation={[0, 0, -23.4 * Math.PI / 180]}>
       <EarthMesh 
-        dayMapTexture={EARTH_MAPS.dayMap}
-        earthSpecTexture={EARTH_MAPS.specs}
-        earthBumpTexture={EARTH_MAPS.bumpMap}
+        dayMapTexture={Textures.EARTH_MAPS.dayMap}
+        earthSpecTexture={Textures.EARTH_MAPS.specs}
+        earthBumpTexture={Textures.EARTH_MAPS.bumpMap}
       />
-      <NightLights sunDirection={controls.sunDirection} dayMapTexture={EARTH_MAPS.dayMap} nightMapTexture={EARTH_MAPS.nightMap} />
-      <Clouds earthCloudsTexture={EARTH_MAPS.clouds} earthCloudsTransparent={EARTH_MAPS.cloudTransparency}  ref={cloudsRef} />
+      <NightLights sunDirection={controls.sunDirection} dayMapTexture={Textures.EARTH_MAPS.dayMap} nightMapTexture={Textures.EARTH_MAPS.nightMap} />
+      <Clouds earthCloudsTexture={Textures.EARTH_MAPS.clouds} earthCloudsTransparent={Textures.EARTH_MAPS.cloudTransparency}  ref={cloudsRef} />
       <Glow />
       <EarthquakeMarkers earthquakes={earthquakes} />
     </group>

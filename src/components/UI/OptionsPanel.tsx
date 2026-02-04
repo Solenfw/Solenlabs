@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
-import { MAG_THRESHOLDS, TIME_RANGES } from '@constants/api_constants';
+import { MAG_THRESHOLDS, TIME_RANGES } from '@constants/apis';
 
 
 interface OptionsPanelProps {

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { TIME_RANGES, MAG_THRESHOLDS } from '@constants/api_constants';
+import { TIME_RANGES, MAG_THRESHOLDS } from '@constants/apis';
 import { fetchEarthquakes } from '@services/earthquakeAPI';
 
 export const useEarthquakes = () => { 
