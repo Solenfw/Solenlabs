@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
-import { MAG_THRESHOLDS, TIME_RANGES } from '@constants/apis';
+import { APIs } from '@constants';
 
 
 interface OptionsPanelProps {
@@ -22,18 +22,18 @@ const OptionsPanel = ({ earthquakeData }: OptionsPanelProps) => {
     } = earthquakeData;
 
     const timeRangeOptions = [
-        { label: 'Past Hour', value: TIME_RANGES.HOUR },
-        { label: 'Past Day', value: TIME_RANGES.DAY },
-        { label: 'Past Week', value: TIME_RANGES.WEEK },
-        { label: 'Past Month', value: TIME_RANGES.MONTH },
+        { label: 'Past Hour', value: APIs.TIME_RANGES.HOUR },
+        { label: 'Past Day', value: APIs.TIME_RANGES.DAY },
+        { label: 'Past Week', value: APIs.TIME_RANGES.WEEK },
+        { label: 'Past Month', value: APIs.TIME_RANGES.MONTH },
     ];
   
     const magnitudeOptions = [
-        { label: 'All Magnitudes', value: MAG_THRESHOLDS.ALL },
-        { label: 'M1.0+', value: MAG_THRESHOLDS.M1 },
-        { label: 'M2.5+', value: MAG_THRESHOLDS.M2_5 },
-        { label: 'M4.5+', value: MAG_THRESHOLDS.M4_5 },
-        { label: 'Significant', value: MAG_THRESHOLDS.SIGNIFICANT },
+        { label: 'All Magnitudes', value: APIs.MAG_THRESHOLDS.ALL },
+        { label: 'M1.0+', value: APIs.MAG_THRESHOLDS.M1 },
+        { label: 'M2.5+', value: APIs.MAG_THRESHOLDS.M2_5 },
+        { label: 'M4.5+', value: APIs.MAG_THRESHOLDS.M4_5 },
+        { label: 'Significant', value: APIs.MAG_THRESHOLDS.SIGNIFICANT },
     ];
 
     const formatLastUpdated = () => {

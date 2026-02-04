@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { MAG_THRESHOLDS, TIME_RANGES } from '@constants/apis';
+import { APIs } from '@constants';
 const BASE_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary';
 
 /**
@@ -7,7 +7,7 @@ const BASE_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary';
  * @param {string} timeRange - Time range (hour, day, week, month)
  * @param {string} magThreshold - Magnitude threshold (all, 1.0, 2.5, 4.5, significant)
  */
-export const fetchEarthquakes = async (timeRange: string = TIME_RANGES.DAY, magThreshold: string = MAG_THRESHOLDS.ALL) => {
+export const fetchEarthquakes = async (timeRange: string = APIs.TIME_RANGES.DAY, magThreshold: string = APIs.MAG_THRESHOLDS.ALL) => {
   try {
     const url = `${BASE_URL}/${magThreshold}_${timeRange}.geojson`;
     const response = await axios.get(url);
