@@ -22,7 +22,7 @@
 
     /* Module Path Aliases */
     "baseUrl": "./src",
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "paths": {
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
