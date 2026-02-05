@@ -1,9 +1,9 @@
 import { drawEarthQuakePoint } from '@utils/earthquakeUtils';
 import { magnitudeToColor, magnitudeToSize } from '@utils/colorScale';
+import { EarthquakeFeature } from '@types';
 
 
-
-const EarthquakeMarkers = ({ earthquakes } : { earthquakes: any[] }) => {
+const EarthquakeMarkers = ({ earthquakes } : { earthquakes: EarthquakeFeature[] }) => {
   return (
     <>
       {earthquakes.map((eq, index) => {

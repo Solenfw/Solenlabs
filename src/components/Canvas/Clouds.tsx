@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { forwardRef, useRef } from 'react';
+import { forwardRef } from 'react';
 import { useTexture } from '@react-three/drei';
 import { CloudsProps } from '@types';
 
 
-const Clouds = forwardRef(({ earthCloudsTexture, earthCloudsTransparent }: CloudsProps, ref: any) => {
+const Clouds = forwardRef<THREE.Mesh, CloudsProps>(({ earthCloudsTexture, earthCloudsTransparent }, ref) => {
   const [cloudMap, alphaMap] = useTexture([earthCloudsTexture, earthCloudsTransparent]);
   return (
     <mesh ref={ref} scale={1.003}>

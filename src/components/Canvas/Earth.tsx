@@ -7,10 +7,11 @@ import Clouds from './Clouds';
 import Glow from './Glow';
 import EarthquakeMarkers from './EarthQuakeMarkers';
 
-// constants
+// constants & types
 import { Textures } from '@constants';
+import { GlobeControls, EarthquakeFeature } from '@types';
 
-const Earth = ({ controls, earthquakes } : { controls: any, earthquakes: any[] }) => {
+const Earth = ({ controls, earthquakes } : { controls: GlobeControls, earthquakes: EarthquakeFeature[] }) => {
   const groupRef = useRef<THREE.Group>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
 

@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
+import { OptionsPanelProps } from '@types';
 import { APIs } from '@constants';
-
-
-interface OptionsPanelProps {
-  earthquakeData: ReturnType<typeof import('@hooks/useEarthquakes').useEarthquakes>;
-}
 
 const OptionsPanel = ({ earthquakeData }: OptionsPanelProps) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
