@@ -30,7 +30,8 @@
       "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],
       "@shaders/*": ["shaders/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@types*": ["types/index"]
     }
   },
   "include": ["src"],

@@ -1,3 +1,5 @@
+
+
 // link to earth texture maps in publc/textures folder
 export const EARTH_MAPS = {
     dayMap: '/textures/earth-daymap.jpg',
@@ -8,18 +10,8 @@ export const EARTH_MAPS = {
     specs: '/textures/earthspecs.jpg'
 };
 
-export interface PlanetConfig {
-  name: string;
-  size: number;
-  orbitRadius: number;
-  duration: number;
-  color: string;
-  texturePath: string; 
-  ringsTexturePath?: string | null;
-}
 
-
-export const PLANETS_MAPS : PlanetConfig[] = [
+export const PLANETS_MAPS = [
     {
         name: 'Mercury',
         size: 0.38,
