@@ -1,7 +1,18 @@
+import Mercury from '@assets/solar/Mercury.jpg';
+import Venus from '@assets/solar/Venus.jpg';
+import Earth from '@assets/solar/Earth.jpg';
+import Mars from '@assets/solar/Mars.jpg';
+import Jupiter from '@assets/solar/Jupiter.jpg';
+import Saturn from '@assets/solar/Saturn.jpg';
+import Uranus from '@assets/solar/Uranus.jpg';
+import Neptune from '@assets/solar/Neptune.jpg';
+import Space from '@assets/solar/Space.jpg';
+import Sun from '@assets/solar/Sun.jpg';
+
 
 
 // link to earth texture maps in publc/textures folder
-export const EARTH_MAPS = {
+export const EARTH_TEXTURE_MAPS = {
     dayMap: '/textures/earth-daymap.jpg',
     nightMap: '/textures/earth-nightmap.jpg',
     bumpMap: '/textures/earth-bump.jpg',
@@ -11,7 +22,7 @@ export const EARTH_MAPS = {
 };
 
 
-export const PLANETS_MAPS = [
+export const PLANETS_TEXTURE_MAPS = [
     {
         name: 'Mercury',
         size: 0.38,
@@ -78,3 +89,18 @@ export const PLANETS_MAPS = [
         texturePath: '/textures/solarSystem/2k_neptune.jpg'
     }
 ];
+
+
+
+export const PLANET_IMAGES = {
+  mercury: Mercury,
+  venus: Venus,
+  earth: Earth,
+  mars: Mars,
+  jupiter: Jupiter,
+  saturn: Saturn,
+  uranus: Uranus,
+  neptune: Neptune,
+  space: Space,
+  sun: Sun,
+};

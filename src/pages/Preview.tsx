@@ -1,6 +1,8 @@
 import { ImageWithFallback } from '@services/ImageWithFallBack';
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
+import { PLANETS } from '@constants';
+import BackgroundImage from '@assets/solar/Space.jpg';
 
 export default function Preview() {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
@@ -59,7 +61,7 @@ export default function Preview() {
       orbitRadius: 100, 
       duration: 8,
       color: '#8C7853',
-      image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZXJjdXJ5JTIwcGxhbmV0fGVufDF8fHx8MTc2OTk0MTI1Mnww&ixlib=rb-4.1.0&q=80&w=1080'
+      image: PLANETS.PLANET_IMAGES.mercury
     },
     { 
       name: 'Venus', 
@@ -67,7 +69,7 @@ export default function Preview() {
       orbitRadius: 140, 
       duration: 12,
       color: '#FFC649',
-      image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2ZW51cyUyMHBsYW5ldHxlbnwxfHx8fDE3Njk5NDEyNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
+      image: PLANETS.PLANET_IMAGES.venus
     },
     { 
       name: 'Earth', 
@@ -75,7 +77,7 @@ export default function Preview() {
       orbitRadius: 180, 
       duration: 16,
       color: '#4A90E2',
-      image: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      image: PLANETS.PLANET_IMAGES.earth
     },
     { 
       name: 'Mars', 
@@ -83,7 +85,7 @@ export default function Preview() {
       orbitRadius: 220, 
       duration: 20,
       color: '#E27B58',
-      image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJzJTIwcGxhbmV0JTIwcmVkfGVufDF8fHx8MTc2OTk0MTI1M3ww&ixlib=rb-4.1.0&q=80&w=1080'
+      image: PLANETS.PLANET_IMAGES.mars
     },
     { 
       name: 'Jupiter', 
@@ -91,7 +93,7 @@ export default function Preview() {
       orbitRadius: 280, 
       duration: 28,
       color: '#C88B3A',
-      image: 'https://images.unsplash.com/photo-1707056790571-54d8612d6368?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqdXBpdGVyJTIwcGxhbmV0fGVufDF8fHx8MTc2OTg0MzA3Mnww&ixlib=rb-4.1.0&q=80&w=1080'
+      image: PLANETS.PLANET_IMAGES.jupiter
     },
     { 
       name: 'Saturn', 
@@ -99,7 +101,7 @@ export default function Preview() {
       orbitRadius: 340, 
       duration: 36,
       color: '#FAD5A5',
-      image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYXR1cm4lMjBwbGFuZXQlMjByaW5nc3xlbnwxfHx8fDE3Njk5NDEyNTV8MA&ixlib=rb-4.1.0&q=80&w=1080'
+      image: PLANETS.PLANET_IMAGES.saturn
     },
     { 
       name: 'Uranus', 
@@ -107,7 +109,7 @@ export default function Preview() {
       orbitRadius: 390, 
       duration: 44,
       color: '#4FD0E7',
-      image: 'https://images.unsplash.com/photo-1769364323382-e2de114ab151?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpY2UlMjBnaWFudCUyMHBsYW5ldHxlbnwxfHx8fDE3Njk5NDEyNTd8MA&ixlib=rb-4.1.0&q=80&w=1080'
+      image: PLANETS.PLANET_IMAGES.uranus
     },
     { 
       name: 'Neptune', 
@@ -115,7 +117,7 @@ export default function Preview() {
       orbitRadius: 430, 
       duration: 52,
       color: '#4169E1',
-      image: 'https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXB0dW5lJTIwcGxhbmV0fGVufDF8fHx8MTc2OTk0MTI1NHww&ixlib=rb-4.1.0&q=80&w=1080'
+      image: PLANETS.PLANET_IMAGES.neptune
     },
   ];
 
@@ -131,7 +133,7 @@ export default function Preview() {
       {/* Space Background */}
       <div className="absolute inset-0">
         <ImageWithFallback
-          src="https://images.pexels.com/photos/30596250/pexels-photo-30596250.jpeg"
+          src={BackgroundImage}
           alt="Space background"
           className="size-full object-cover opacity-80"
         />
@@ -204,7 +206,7 @@ export default function Preview() {
                     height: `${sunSize}px`
                   }}>
                     <ImageWithFallback
-                      src="https://images.unsplash.com/photo-1614642264762-d0a3b8bf3700?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdW4lMjBzdGFyJTIwc29sYXJ8ZW58MXx8fHwxNzY5ODg1MDcyfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                      src={PLANETS.PLANET_IMAGES.sun}
                       alt="Sun"
                       className="size-full object-cover"
                     />
