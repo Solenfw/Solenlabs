@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { Canvas } from '@react-three/fiber';
+import * as THREE from 'three';
+import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import { Suspense, useEffect, useState } from 'react';
 import { useControls } from 'leva';
 
 // Hooks
@@ -13,13 +15,24 @@ import Stars from './Canvas/Stars';
 // UI Components
 import { HomeButton } from './UI/homeButton';
 import { Loader } from './UI/Loader';
-import { Suspense } from 'react';
 import OptionsPanel from './UI/OptionsPanel';
 import { InfoPanel } from './UI/InfoPanel';
 
 
+const CameraBridge = ({ onCameraReady }: 
+  { onCameraReady: (camera: THREE.Camera) => void }) => {
+  const { camera } = useThree();
+  
+  useEffect(() => {
+    onCameraReady(camera);
+  }, [camera, onCameraReady]);
+  
+  return null;
+};
+
 const Globe = () => {
   const earthquakeData = useEarthquakes();
+  const [camera, setCamera] = useState<THREE.Camera | null>(null);
   
   const controls = useControls({
     earthRotationSpeed: { value: 0.001, min: 0, max: 0.01 },
@@ -27,15 +40,16 @@ const Globe = () => {
     starsRotationSpeed: { value: 0.0001, min: 0, max: 0.01 },
     sunDirection: { value: [-1.5, 1.5, 0.5] },
   });
-
+  
   return (
     <div className="w-full h-screen bg-black relative">
       <Loader />
       <HomeButton />
       <OptionsPanel earthquakeData={earthquakeData} />
-      <InfoPanel {...earthquakeData} />
+      {camera && <InfoPanel {...earthquakeData} camera={camera} />}
       <Suspense fallback={null}>
         <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+          <CameraBridge onCameraReady={setCamera} />
           <Earth controls={controls} earthquakes={earthquakeData.earthquakes} />
           <Stars controls={controls} />
           <ambientLight intensity={0.0005} />

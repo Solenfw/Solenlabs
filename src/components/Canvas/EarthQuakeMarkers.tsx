@@ -10,7 +10,7 @@ const EarthquakeMarkers = ( { earthquakes } : { earthquakes: EarthquakeFeature[]
         const lat = eq.geometry.coordinates[1];
         const lon = eq.geometry.coordinates[0];
         const mag = eq.properties.mag;
-        const marker = drawEarthQuakePoint(lat, lon, { 
+        const marker = drawEarthQuakePoint(lat, lon, eq.id, { 
           size: magnitudeToSize(mag),
           color: magnitudeToColor(mag),
         });

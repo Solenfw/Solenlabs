@@ -1,8 +1,9 @@
-import { EarthquakeContextData } from '@types';
+import { InfoPanelProps } from '@types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
+import { focusOnEarthquake } from '@utils/performRayCast';
 
-export const InfoPanel = ({ earthquakes, loading, error, lastUpdated }: EarthquakeContextData) => {
+export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: InfoPanelProps) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     return (
         <div 
@@ -63,6 +64,7 @@ export const InfoPanel = ({ earthquakes, loading, error, lastUpdated }: Earthqua
                     return (
                         <li
                             key={eq.id}
+                            onClick={() => focusOnEarthquake(eq.id, camera)}
                             className="group bg-slate-900/40 hover:bg-slate-800/60 rounded-xl p-4 cursor-pointer transition-all duration-300 border border-slate-800/30 hover:border-slate-700/50 hover:shadow-lg hover:shadow-slate-900/50 hover:-translate-y-0.5"
                         >
                             <div className="flex items-start gap-4">

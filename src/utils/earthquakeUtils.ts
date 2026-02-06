@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { format } from 'date-fns';
+import { registerMesh } from '@utils/performRayCast';
 
 /**
  * Convert lat/lon to 3D sphere coordinates
@@ -75,7 +76,7 @@ export const getEarthquakeStats = (earthquakes: any[]) => {
 /**
  * Earthquake points on globe - Spherical shape
  */
-export const drawEarthQuakePoint = (lat: number, lon: number, options = {size: 0.01, color: 0xff0000}) => {
+export const drawEarthQuakePoint = (lat: number, lon: number, eqId: string, options = {size: 0.01, color: 0xff0000}) => {
   const { x, y, z } = latLonToVector3(lat, lon, 1.08); // Slightly above the Earth surface
 
   const geometry = new THREE.IcosahedronGeometry(options.size, 4);
@@ -86,5 +87,7 @@ export const drawEarthQuakePoint = (lat: number, lon: number, options = {size: 0
   
   pointMesh.name = `quake-${lat}-${lon}`;
   
+  // register for ray-casting
+  registerMesh(eqId, pointMesh);
   return pointMesh;
 }

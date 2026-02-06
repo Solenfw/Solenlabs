@@ -1,3 +1,6 @@
+import * as THREE from 'three';
+import { EarthquakeContextData } from './store';
+
 
 export interface VisualizationItem {
   id: string;
@@ -7,5 +10,9 @@ export interface VisualizationItem {
 }
 
 export interface OptionsPanelProps {
-  earthquakeData: import('./store').EarthquakeContextData;
+  earthquakeData: EarthquakeContextData;
+}
+
+export interface InfoPanelProps extends EarthquakeContextData {
+  camera : THREE.Camera;
 }
