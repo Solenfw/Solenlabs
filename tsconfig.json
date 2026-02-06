@@ -26,12 +26,12 @@
     "paths": {
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
-      "@constants": ["constants/assets"],
+      "@constants": ["constants/index.ts"],
       "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],
       "@shaders/*": ["shaders/*"],
       "@services/*": ["services/*"],
-      "@types*": ["types/index"]
+      "@types*": ["types/index.ts"]
     }
   },
   "include": ["src"],

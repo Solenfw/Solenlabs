@@ -1,7 +1,7 @@
 import { ImageWithFallback } from '@services/ImageWithFallBack';
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { PLANETS } from '@constants';
+import { PLANETS } from 'constants';
 import BackgroundImage from '@assets/solar/Space.jpg';
 
 export default function Preview() {

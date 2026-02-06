@@ -15,7 +15,7 @@ import { HomeButton } from './UI/homeButton';
 import { Loader } from './UI/Loader';
 import { Suspense } from 'react';
 import OptionsPanel from './UI/OptionsPanel';
-import { DetailsPanel } from './UI/DetailsPanel';
+import { InfoPanel } from './UI/InfoPanel';
 
 
 const Globe = () => {
@@ -33,7 +33,7 @@ const Globe = () => {
       <Loader />
       <HomeButton />
       <OptionsPanel earthquakeData={earthquakeData} />
-      <DetailsPanel {...earthquakeData} />
+      <InfoPanel {...earthquakeData} />
       <Suspense fallback={null}>
         <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
           <Earth controls={controls} earthquakes={earthquakeData.earthquakes} />

@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+import { NightLightsProps } from '@types';
 
 // Shaders
 import { nightLightsShader } from '@shaders/nightLightShader';
 
 
-const NightLights = ({ sunDirection, dayMapTexture, nightMapTexture } : { sunDirection: number[], dayMapTexture: string, nightMapTexture: string }) => {
+const NightLights = ({ sunDirection, dayMapTexture, nightMapTexture } : NightLightsProps) => {
   const [dayTex, nightTex] = useTexture([dayMapTexture, nightMapTexture]);
   const uniforms = useMemo(() => ({
     sunDirection: { value: new THREE.Vector3(...sunDirection) },

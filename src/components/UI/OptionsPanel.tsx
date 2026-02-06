@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import { OptionsPanelProps } from '@types';
-import { APIs } from '@constants';
+import { APIs } from 'constants';
 
 const OptionsPanel = ({ earthquakeData }: OptionsPanelProps) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);

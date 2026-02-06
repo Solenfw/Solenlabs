@@ -3,7 +3,7 @@ import { magnitudeToColor, magnitudeToSize } from '@utils/colorScale';
 import { EarthquakeFeature } from '@types';
 
 
-const EarthquakeMarkers = ({ earthquakes } : { earthquakes: EarthquakeFeature[] }) => {
+const EarthquakeMarkers = ( { earthquakes } : { earthquakes: EarthquakeFeature[] }) => {
   return (
     <>
       {earthquakes.map((eq, index) => {
