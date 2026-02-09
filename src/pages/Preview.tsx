@@ -169,7 +169,7 @@ export default function Preview() {
         </div>
 
         {/* Right Side - Solar System */}
-        <div className="items-center justify-center" style={{marginLeft: `-${solarSystemSize}px`}}>
+        <div className="items-center justify-center" style={{marginLeft: `-300px`}}>
           <div 
             className="relative select-none"
             style={{ 

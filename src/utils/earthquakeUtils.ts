@@ -39,41 +39,7 @@ export const timeAgo = (timestamp: number) => {
   return `${days} days ago`;
 };
 
-/**
- * Get statistics from earthquake data
- */
-export const getEarthquakeStats = (earthquakes: any[]) => {
-  if (!earthquakes || earthquakes.length === 0) {
-    return {
-      total: 0,
-      strongest: null,
-      averageMag: 0,
-      byMagnitude: { minor: 0, light: 0, moderate: 0, strong: 0, major: 0 }
-    };
-  }
-
-  const magnitudes = earthquakes.map(eq => eq.properties.mag).filter(m => m !== null);
-  const strongest = earthquakes.reduce((max, eq) => 
-    eq.properties.mag > (max?.properties.mag || 0) ? eq : max
-  , null);
-
-  const byMagnitude = {
-    minor: earthquakes.filter(eq => eq.properties.mag < 2.5).length,
-    light: earthquakes.filter(eq => eq.properties.mag >= 2.5 && eq.properties.mag < 4.5).length,
-    moderate: earthquakes.filter(eq => eq.properties.mag >= 4.5 && eq.properties.mag < 6.0).length,
-    strong: earthquakes.filter(eq => eq.properties.mag >= 6.0 && eq.properties.mag < 7.0).length,
-    major: earthquakes.filter(eq => eq.properties.mag >= 7.0).length
-  };
-
-  return {
-    total: earthquakes.length,
-    strongest,
-    averageMag: (magnitudes.reduce((sum, mag) => sum + mag, 0) / magnitudes.length).toFixed(2),
-    byMagnitude
-  };
-};
-
-/**
+ /**
  * Earthquake points on globe - Spherical shape
  */
 export const drawEarthQuakePoint = (lat: number, lon: number, eqId: string, options = {size: 0.01, color: 0xff0000}) => {
