@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+<<<<<<< HEAD
 import { useMemo, useRef, forwardRef } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
@@ -147,12 +148,50 @@ const Stars = ({ controls } : { controls: any }) => {
 
 const Globe = () => {
   const { earthquakes } = useEarthquakes();
+=======
+import * as THREE from 'three';
+import { Canvas, useThree } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { Suspense, useEffect, useState } from 'react';
+import { useControls } from 'leva';
+
+// Hooks
+import { useEarthquakes } from '@hooks/useEarthquakes';
+
+// canvas components
+import Earth from './Canvas/Earth';
+import Stars from './Canvas/Stars';
+
+// UI Components
+import { HomeButton } from './UI/homeButton';
+import { Loader } from './UI/Loader';
+import OptionsPanel from './UI/OptionsPanel';
+import { InfoPanel } from './UI/InfoPanel';
+
+
+const CameraBridge = ({ onCameraReady }: 
+  { onCameraReady: (camera: THREE.Camera) => void }) => {
+  const { camera } = useThree();
+  
+  useEffect(() => {
+    onCameraReady(camera);
+  }, [camera, onCameraReady]);
+  
+  return null;
+};
+
+const Globe = () => {
+  const earthquakeData = useEarthquakes();
+  const [camera, setCamera] = useState<THREE.Camera | null>(null);
+  
+>>>>>>> develop
   const controls = useControls({
     earthRotationSpeed: { value: 0.001, min: 0, max: 0.01 },
     cloudsRotationSpeed: { value: 0.0005, min: 0, max: 0.01 },
     starsRotationSpeed: { value: 0.0001, min: 0, max: 0.01 },
     sunDirection: { value: [-1.5, 1.5, 0.5] },
   });
+<<<<<<< HEAD
 
   return (
     <div className="w-full h-screen bg-black relative">
@@ -164,6 +203,29 @@ const Globe = () => {
         <directionalLight position={[1, 1, 1]} intensity={0.5} />
         <OrbitControls enableDamping minDistance={2} maxDistance={20} enablePan={false} />
       </Canvas>
+=======
+  
+  return (
+    <div className="w-full h-screen bg-black relative">
+      <Loader />
+      <HomeButton />
+      <OptionsPanel earthquakeData={earthquakeData} />
+      {camera && <InfoPanel {...earthquakeData} camera={camera} />}
+      <Suspense fallback={null}>
+        <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+          <CameraBridge onCameraReady={setCamera} />
+          <Earth controls={controls} earthquakes={earthquakeData.earthquakes} />
+          <Stars controls={controls} />
+          <ambientLight intensity={0.0005} />
+          <directionalLight position={[1, 1, 1]} intensity={1.2} />
+          <OrbitControls 
+            enableDamping minDistance={2} 
+            maxDistance={20} 
+            enablePan={false} 
+          />
+        </Canvas>
+      </Suspense>
+>>>>>>> develop
     </div>
   );
 };

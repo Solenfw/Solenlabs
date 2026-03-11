@@ -20,10 +20,25 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+<<<<<<< HEAD
     /* Path aliases (if you use them) */
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
+=======
+    /* Module Path Aliases */
+    "baseUrl": "./src",
+    "ignoreDeprecations": "5.0",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@constants": ["constants/index.ts"],
+      "@assets/*": ["assets/*"],
+      "@utils/*": ["utils/*"],
+      "@shaders/*": ["shaders/*"],
+      "@services/*": ["services/*"],
+      "@types*": ["types/index.ts"]
+>>>>>>> develop
     }
   },
   "include": ["src"],

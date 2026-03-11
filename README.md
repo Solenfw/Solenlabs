@@ -233,4 +233,8 @@ npm install -D @types/three
 
 ---
 
+<<<<<<< HEAD
 Built with ❤️ using React, TypeScript, and Three.js
+=======
+Built with ❤️ using React, TypeScript, and Three.js
+>>>>>>> develop

@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 import { ImageWithFallback } from '../components/ImageWithFallBack';
 import { Link } from 'react-router-dom';
 import { useState, useRef } from 'react';
+=======
+import { ImageWithFallback } from '@services/ImageWithFallBack';
+import { Link } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { PLANETS } from '@constants';
+import BackgroundImage from '@assets/solar/Space.jpg';
+>>>>>>> develop
 
 export default function Preview() {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
@@ -30,7 +38,32 @@ export default function Preview() {
     setIsDragging(false);
   };
 
+<<<<<<< HEAD
   // Planet data with orbital properties
+=======
+  // Planet data with orbital properties (base values are reference px at a 2000px solar system)
+  const baseReference = 2000; // original design was based on a 2000x2000 container
+
+  // viewport state + resize listener so sizes update responsively
+  const [viewport, setViewport] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : baseReference,
+    height: typeof window !== 'undefined' ? window.innerHeight : baseReference,
+  });
+
+  useEffect(() => {
+    const onResize = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  // scale factor derived from the smaller viewport dimension relative to the design reference
+  const scale = Math.min(viewport.width, viewport.height) / baseReference;
+  const solarSystemSize = Math.max(600, baseReference * scale); // keep a reasonable minimum
+  const sunBaseSize = 128; // base sun size used in original design
+  const sunSize = Math.max(48, Math.round(sunBaseSize * scale));
+
+  // Base planet definitions (sizes/orbits are reference px values)
+>>>>>>> develop
   const planets = [
     { 
       name: 'Mercury', 
@@ -38,7 +71,11 @@ export default function Preview() {
       orbitRadius: 100, 
       duration: 8,
       color: '#8C7853',
+<<<<<<< HEAD
       image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZXJjdXJ5JTIwcGxhbmV0fGVufDF8fHx8MTc2OTk0MTI1Mnww&ixlib=rb-4.1.0&q=80&w=1080'
+=======
+      image: PLANETS.PLANET_IMAGES.mercury
+>>>>>>> develop
     },
     { 
       name: 'Venus', 
@@ -46,7 +83,11 @@ export default function Preview() {
       orbitRadius: 140, 
       duration: 12,
       color: '#FFC649',
+<<<<<<< HEAD
       image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2ZW51cyUyMHBsYW5ldHxlbnwxfHx8fDE3Njk5NDEyNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
+=======
+      image: PLANETS.PLANET_IMAGES.venus
+>>>>>>> develop
     },
     { 
       name: 'Earth', 
@@ -54,7 +95,11 @@ export default function Preview() {
       orbitRadius: 180, 
       duration: 16,
       color: '#4A90E2',
+<<<<<<< HEAD
       image: 'https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+=======
+      image: PLANETS.PLANET_IMAGES.earth
+>>>>>>> develop
     },
     { 
       name: 'Mars', 
@@ -62,7 +107,11 @@ export default function Preview() {
       orbitRadius: 220, 
       duration: 20,
       color: '#E27B58',
+<<<<<<< HEAD
       image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJzJTIwcGxhbmV0JTIwcmVkfGVufDF8fHx8MTc2OTk0MTI1M3ww&ixlib=rb-4.1.0&q=80&w=1080'
+=======
+      image: PLANETS.PLANET_IMAGES.mars
+>>>>>>> develop
     },
     { 
       name: 'Jupiter', 
@@ -70,7 +119,11 @@ export default function Preview() {
       orbitRadius: 280, 
       duration: 28,
       color: '#C88B3A',
+<<<<<<< HEAD
       image: 'https://images.unsplash.com/photo-1707056790571-54d8612d6368?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqdXBpdGVyJTIwcGxhbmV0fGVufDF8fHx8MTc2OTg0MzA3Mnww&ixlib=rb-4.1.0&q=80&w=1080'
+=======
+      image: PLANETS.PLANET_IMAGES.jupiter
+>>>>>>> develop
     },
     { 
       name: 'Saturn', 
@@ -78,7 +131,11 @@ export default function Preview() {
       orbitRadius: 340, 
       duration: 36,
       color: '#FAD5A5',
+<<<<<<< HEAD
       image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYXR1cm4lMjBwbGFuZXQlMjByaW5nc3xlbnwxfHx8fDE3Njk5NDEyNTV8MA&ixlib=rb-4.1.0&q=80&w=1080'
+=======
+      image: PLANETS.PLANET_IMAGES.saturn
+>>>>>>> develop
     },
     { 
       name: 'Uranus', 
@@ -86,7 +143,11 @@ export default function Preview() {
       orbitRadius: 390, 
       duration: 44,
       color: '#4FD0E7',
+<<<<<<< HEAD
       image: 'https://images.unsplash.com/photo-1769364323382-e2de114ab151?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpY2UlMjBnaWFudCUyMHBsYW5ldHxlbnwxfHx8fDE3Njk5NDEyNTd8MA&ixlib=rb-4.1.0&q=80&w=1080'
+=======
+      image: PLANETS.PLANET_IMAGES.uranus
+>>>>>>> develop
     },
     { 
       name: 'Neptune', 
@@ -94,16 +155,34 @@ export default function Preview() {
       orbitRadius: 430, 
       duration: 52,
       color: '#4169E1',
+<<<<<<< HEAD
       image: 'https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXB0dW5lJTIwcGxhbmV0fGVufDF8fHx8MTc2OTk0MTI1NHww&ixlib=rb-4.1.0&q=80&w=1080'
     },
   ];
 
+=======
+      image: PLANETS.PLANET_IMAGES.neptune
+    },
+  ];
+
+  // derived scaled planets used for rendering (px sizes for this viewport)
+  const scaledPlanets = planets.map(p => ({
+    ...p,
+    sizePx: Math.max(6, Math.round(p.size * scale)),
+    orbitRadiusPx: Math.max(30, Math.round(p.orbitRadius * scale)),
+  }));
+
+>>>>>>> develop
   return (
     <div className="relative h-screen overflow-hidden bg-black">
       {/* Space Background */}
       <div className="absolute inset-0">
         <ImageWithFallback
+<<<<<<< HEAD
           src="https://images.pexels.com/photos/30596250/pexels-photo-30596250.jpeg"
+=======
+          src={BackgroundImage}
+>>>>>>> develop
           alt="Space background"
           className="size-full object-cover opacity-80"
         />
@@ -139,6 +218,7 @@ export default function Preview() {
         </div>
 
         {/* Right Side - Solar System */}
+<<<<<<< HEAD
         <div className="flex items-center justify-center" style={{marginLeft: '-300px'}}>
           <div 
             className="relative select-none"
@@ -146,6 +226,15 @@ export default function Preview() {
               width: '2000px', 
               height: '2000px',
               perspective: '2000px',
+=======
+        <div className="items-center justify-center" style={{marginLeft: `-300px`}}>
+          <div 
+            className="relative select-none"
+            style={{ 
+              width: `${solarSystemSize}px`, 
+              height: `${solarSystemSize}px`,
+              perspective: `${Math.max(800, solarSystemSize)}px`,
+>>>>>>> develop
               cursor: isDragging ? 'grabbing' : 'grab'
             }}
             onMouseDown={handleMouseDown}
@@ -164,17 +253,31 @@ export default function Preview() {
             >
               {/* Sun in the center */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+<<<<<<< HEAD
                 <div className="relative size-32">
+=======
+                <div className="relative" style={{ width: `${sunSize}px`, height: `${sunSize}px` }}>
+>>>>>>> develop
                   {/* Sun glow */}
                   <div className="absolute inset-0 rounded-full bg-yellow-500/60 blur-2xl animate-pulse" />
                   <div className="absolute -inset-5 rounded-full bg-orange-500/40 blur-3xl animate-pulse" style={{ animationDuration: '3s' }} />
                   
                   {/* Sun */}
+<<<<<<< HEAD
                   <div className="relative size-32 rounded-full overflow-hidden shadow-2xl" style={{
                     boxShadow: '0 0 40px rgba(255, 200, 0, 0.8), inset -8px -8px 20px rgba(0, 0, 0, 0.3)',
                   }}>
                     <ImageWithFallback
                       src="https://images.unsplash.com/photo-1614642264762-d0a3b8bf3700?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdW4lMjBzdGFyJTIwc29sYXJ8ZW58MXx8fHwxNzY5ODg1MDcyfDA&ixlib=rb-4.1.0&q=80&w=1080"
+=======
+                  <div className="relative rounded-full overflow-hidden shadow-2xl" style={{
+                    boxShadow: '0 0 40px rgba(255, 200, 0, 0.8), inset -8px -8px 20px rgba(0, 0, 0, 0.3)',
+                    width: `${sunSize}px`,
+                    height: `${sunSize}px`
+                  }}>
+                    <ImageWithFallback
+                      src={PLANETS.PLANET_IMAGES.sun}
+>>>>>>> develop
                       alt="Sun"
                       className="size-full object-cover"
                     />
@@ -191,14 +294,23 @@ export default function Preview() {
               </div>
 
               {/* Planets orbiting */}
+<<<<<<< HEAD
               {planets.map((planet) => (
+=======
+              {scaledPlanets.map((planet) => (
+>>>>>>> develop
                 <div key={planet.name}>
                   {/* Orbital path */}
                   <div 
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/10"
                     style={{
+<<<<<<< HEAD
                       width: `${planet.orbitRadius * 2}px`,
                       height: `${planet.orbitRadius * 2}px`,
+=======
+                      width: `${planet.orbitRadiusPx * 2}px`,
+                      height: `${planet.orbitRadiusPx * 2}px`,
+>>>>>>> develop
                     }}
                   />
                   
@@ -206,14 +318,23 @@ export default function Preview() {
                   <div
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     style={{
+<<<<<<< HEAD
                       width: `${planet.orbitRadius * 2}px`,
                       height: `${planet.orbitRadius * 2}px`,
+=======
+                      width: `${planet.orbitRadiusPx * 2}px`,
+                      height: `${planet.orbitRadiusPx * 2}px`,
+>>>>>>> develop
                       animation: `orbit ${planet.duration}s linear infinite`,
                     }}
                   >
                     <div
                       className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+<<<<<<< HEAD
                       style={{ width: `${planet.size}px`, height: `${planet.size}px` }}
+=======
+                      style={{ width: `${planet.sizePx}px`, height: `${planet.sizePx}px` }}
+>>>>>>> develop
                     >
                       {/* Planet glow */}
                       <div 
@@ -223,7 +344,11 @@ export default function Preview() {
                       
                       {/* Planet */}
                       <div className="relative size-full rounded-full overflow-hidden" style={{
+<<<<<<< HEAD
                         boxShadow: `0 0 20px ${planet.color}80, inset -${planet.size * 0.2}px -${planet.size * 0.2}px ${planet.size * 0.4}px rgba(0, 0, 0, 0.6)`,
+=======
+                        boxShadow: `0 0 20px ${planet.color}80, inset -${planet.sizePx * 0.2}px -${planet.sizePx * 0.2}px ${planet.sizePx * 0.4}px rgba(0, 0, 0, 0.6)`,
+>>>>>>> develop
                       }}>
                         <ImageWithFallback
                           src={planet.image}

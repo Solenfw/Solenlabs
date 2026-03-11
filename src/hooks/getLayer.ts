@@ -1,5 +1,9 @@
 import * as THREE from "three";
+<<<<<<< HEAD
 import radGradPath from "../assets/images/rad-grad.png";
+=======
+import radGradPath from "@assets/images/rad-grad.png";
+>>>>>>> develop
 
 const loader = new THREE.TextureLoader();
 const sharedTexture = loader.load(radGradPath);
