@@ -2,11 +2,13 @@ import { Route, Routes } from 'react-router-dom';
 import Globe from './components/Globe';
 import Home from './pages/Home';
 import Preview from './pages/Preview';
+import Landing from './pages/Landing';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Preview />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="/preview" element={<Preview />} />
       <Route path="/home" element={<Home />} />
       <Route path="/globe" element={<Globe />} />
     </Routes>
