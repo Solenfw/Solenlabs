@@ -21,7 +21,7 @@ export default function Landing() {
             alt="Earth from space" 
             className="w-full h-full object-cover opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80"></div>
+          <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/20 to-black/80"></div>
         </div>
 
         {/* EXPLORE button */}
@@ -42,7 +42,7 @@ export default function Landing() {
       </section>
 
       {/* 2. Content Section (head panel) */}
-      <section className="relative py-24 px-6 md:px-12 lg:px-24 bg-gradient-to-b from-black to-[#051a14]">
+      <section className="relative py-24 px-6 md:px-12 lg:px-24 bg-linear-to-b from-black to-[#051a14]">
         <div className="max-w-4xl mx-auto text-center space-y-12">
           {/* USGS Logo */}
           <div className="flex justify-center mb-12">
@@ -86,12 +86,12 @@ export default function Landing() {
           </div>
 
           {/* Decorative separator */}
-          <div className="w-64 h-[1px] bg-white/30 mx-auto mt-16"></div>
+          <div className="w-64 h-px bg-white/30 mx-auto mt-16"></div>
         </div>
         
         {/* Polygon decorative element */}
         <div className="absolute bottom-8 right-12 opacity-20 rotate-45">
-            <div className="w-0 h-0 border-l-[15px] border-l-transparent border-b-[25px] border-b-white border-r-[15px] border-r-transparent"></div>
+            <div className="w-0 h-0 border-l-15 border-l-transparent border-b-25 border-b-white border-r-15 border-r-transparent"></div>
         </div>
       </section>
 
@@ -139,7 +139,7 @@ export default function Landing() {
           </div>
 
           {/* Line separator */}
-          <div className="h-[1px] bg-white/10 w-full mb-8"></div>
+          <div className="h-px bg-white/10 w-full mb-8"></div>
 
           {/* Footer Bottom */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
