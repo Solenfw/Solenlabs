@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Moon, Database, Save } from "lucide-react";
-import newsImg from "../assets/images/news.png";
+import newsImg from "@assets/images/news.png";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -102,7 +102,7 @@ export default function Home() {
       <div className="flex flex-1">
         
         {/* SIDEBAR */}
-        <div className="w-[100px] bg-[#b7c7a8] flex flex-col items-center py-4 space-y-4">
+        <div className="w-25 bg-[#b7c7a8] flex flex-col items-center py-4 space-y-4">
           <div
             onClick={() => setTab("home")}
             className={`p-10 rounded-md cursor-pointer transition ${

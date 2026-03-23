@@ -9,7 +9,7 @@ const SignUp: React.FC = () => {
         background: 'linear-gradient(to bottom, #000000 0%, #666666 100%)'
       }}
     >
-      <div className="w-full max-w-[1920px] min-h-[1080px] flex items-center justify-center">
+      <div className="w-full max-w-480 min-h-270 flex items-center justify-center">
         <div className="bg-transparent w-full max-w-xl p-8 md:p-12 flex flex-col items-center">
           <h1 className="text-white text-6xl font-bold mb-12 text-center">Sign up</h1>
           

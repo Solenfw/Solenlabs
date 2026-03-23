@@ -5,10 +5,10 @@ const SignIn: React.FC = () => {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4 font-mono">
       {/* Container for the Sign In layout */}
-      <div className="w-full max-w-[1920px] min-h-[1080px] bg-[#0d0d0d] flex flex-col md:flex-row rounded-3xl overflow-hidden shadow-2xl border border-gray-800">
+      <div className="w-full max-w-480 min-h-270 bg-[#0d0d0d] flex flex-col md:flex-row rounded-3xl overflow-hidden shadow-2xl border border-gray-800">
         
         {/* Left Side: Login Form */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-24 py-12 bg-gradient-to-b from-black to-[#1a1a1a]">
+        <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-24 py-12 bg-linear-to-b from-black to-[#1a1a1a]">
           <div className="max-w-md w-full mx-auto">
             <h1 className="text-white text-6xl font-bold mb-16 tracking-tight">Sign in</h1>
             

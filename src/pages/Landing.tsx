@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import BackgroundImage from '@assets/solar/Earth.jpg';
+import earthVideo from '@assets/video/earth-rotating.mp4';
 import USGSLogo from '@assets/images/USGS.png';
 
 export default function Landing() {
@@ -8,7 +8,7 @@ export default function Landing() {
       {/* Login Button in Top Right */}
       <div className="absolute top-8 right-8 z-20">
         <Link to="/signin">
-        <button className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full transition-all duration-300 text-sm font-medium backdrop-blur-md">
+        <button className="px-6 py-2 bg-white/10 hover:cursor-pointer hover:bg-white/20 border border-white/20 rounded-full transition-all duration-300 text-sm font-medium backdrop-blur-md">
           Login
         </button>
         </Link>
@@ -18,33 +18,29 @@ export default function Landing() {
       <section className="relative h-[80vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         {/* background layer image */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={BackgroundImage} 
-            alt="Earth from space" 
-            className="w-full h-full object-cover opacity-80"
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/20 to-black/80"></div>
+          <video className="w-full h-full object-cover" autoPlay loop muted>
+            <source src={earthVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
 
         {/* EXPLORE button */}
         <div className="relative z-10 mb-12">
-          <Link to="/home">
-            <button className="px-10 py-4 bg-black/60 border border-white/30 text-white text-2xl font-bold tracking-widest hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm uppercase rounded-full">
+          <Link to="/globe">
+            <button className="px-10 py-4 bg-black/60 border border-white/30 text-white text-2xl font-bold tracking-widest hover:bg-white hover:cursor-pointer hover:text-black transition-all duration-300 backdrop-blur-sm uppercase rounded-full">
               EXPLORE
             </button>
           </Link>
-        </div>
-
-        {/* preview (A glimpse into the history...) */}
-        <div className="absolute bottom-12 left-8 md:left-16 z-10 max-w-xs text-left">
-          <p className="text-gray-300 italic text-lg leading-relaxed">
-            A <span className="font-bold text-white">glimpse</span> into the history behind the project.
-          </p>
         </div>
       </section>
 
       {/* 2. Content Section (head panel) */}
       <section className="relative py-24 px-6 md:px-12 lg:px-24 bg-linear-to-b from-black to-[#051a14]">
+        <div className="absolute top-12 left-8 md:left-16 z-10 max-w-xs text-left">
+          <p className="text-gray-300 italic text-lg leading-relaxed">
+            A <span className="font-bold text-white">glimpse</span> into the history behind the project.
+          </p>
+        </div>
         <div className="max-w-4xl mx-auto text-center space-y-12">
           {/* USGS Logo */}
           <div className="flex justify-center mb-12">
@@ -89,11 +85,6 @@ export default function Landing() {
 
           {/* Decorative separator */}
           <div className="w-64 h-px bg-white/30 mx-auto mt-16"></div>
-        </div>
-        
-        {/* Polygon decorative element */}
-        <div className="absolute bottom-8 right-12 opacity-20 rotate-45">
-            <div className="w-0 h-0 border-l-15 border-l-transparent border-b-25 border-b-white border-r-15 border-r-transparent"></div>
         </div>
       </section>
 
