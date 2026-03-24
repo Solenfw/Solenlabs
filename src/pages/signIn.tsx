@@ -13,7 +13,6 @@ const SignIn: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Already logged in — skip this page
   useEffect(() => {
     if (!authLoading && user) navigate('/home', { replace: true });
   }, [user, authLoading, navigate]);

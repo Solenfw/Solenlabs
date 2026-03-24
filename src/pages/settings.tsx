@@ -59,11 +59,6 @@ const EditProfileView = ({ formData, handleInputChange }: any) => (
       onChange={handleInputChange('about')}
       multiline
     />
-    <InputBox
-      label="Email"
-      value={formData.email}
-      onChange={handleInputChange('email')}
-    />
   </div>
 );
 
@@ -302,7 +297,7 @@ const Settings: React.FC = () => {
 
         {/* Bottom Actions - Added shrink-0 to prevent squishing */}
         {activeMenu === 'Edit Profile' && (
-          <div className="border-t border-gray-200 p-4 flex justify-end gap-4 shrink-0">
+          <div className="border-t border-gray-200 p-4 flex justify-end gap-4">
             <button
               onClick={handleCancel}
               className="bg-[#c2c2c2] text-black px-6 py-2 font-bold rounded shadow-sm hover:bg-gray-400 transition-colors"
