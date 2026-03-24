@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InputBoxProps } from '@types';
 import { useAuth } from '@contexts/authContext';
+import { supabase } from '@services/supabaseClient';
 
 // --- Reusable Components ---
 const InputBox: React.FC<InputBoxProps> = ({ label, value, onChange, multiline }) => {
   return (
     <div className="mb-6 border border-gray-300 rounded-xl p-4 transition-all focus-within:border-gray-500 focus-within:ring-1 focus-within:ring-gray-500">
-      <label className="block text-gray-700 text-sm font-medium mb-1">{label}</label>
+      <label className="block text-gray-700 text-sm font-bold mb-1">{label}</label>
       {multiline ? (
         <textarea
           className="w-full bg-transparent border-none outline-none text-gray-600 resize-none"
@@ -217,13 +218,14 @@ const PrivacyDataView = () => (
 const Settings: React.FC = () => {
   const { user } = useAuth();
   const avatarUrl = user?.user_metadata?.avatar_url || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
-  const userName = user?.user_metadata?.full_name || 'Your username';
+  const userName = user?.user_metadata?.full_name || '';
+  const about = user?.user_metadata?.about || '';
 
   const navigate = useNavigate();
   const[activeMenu, setActiveMenu] = useState('Edit Profile');
   const [formData, setFormData] = useState({
     username: userName,
-    about: '',
+    about: about,
     avatarUrl: avatarUrl,
   });
 
@@ -251,9 +253,20 @@ const Settings: React.FC = () => {
     setFormData({ ...formData, [field]: e.target.value });
   };
 
-  const handleSave = () => {
-    console.log('Saving data:', formData);
-    // Logic to send data to server would go here
+  const handleSave = async () => {
+    const {error} = await supabase.auth.updateUser({
+      data: {
+        full_name: formData.username,
+        avatar_url: formData.avatarUrl,
+        about: formData.about
+      }
+    });
+    if (error) {
+      console.error('Error updating user:', error);
+      alert('Failed to update profile. Please try again.');
+    } else {
+      navigate(-1);
+    }
   };
 
   const handleCancel = () => {
@@ -322,7 +335,6 @@ const Settings: React.FC = () => {
         </div>
 
         {/* Bottom Actions - Added shrink-0 to prevent squishing */}
-        {activeMenu === 'Edit Profile' && (
           <div className="border-t border-gray-200 p-4 flex justify-end gap-4">
             <button
               onClick={handleCancel}
@@ -337,7 +349,6 @@ const Settings: React.FC = () => {
               SAVE
             </button>
           </div>
-        )}
       </div>
     </div>
   );
