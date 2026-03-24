@@ -16,8 +16,8 @@ const Earth = ({controls, earthquakes}: { controls: GlobeControls, earthquakes: 
   const cloudsRef = useRef<THREE.Mesh>(null);
 
   useFrame(() => {
-    if (groupRef.current) groupRef.current.rotation.y += controls.earthRotationSpeed;
-    if (cloudsRef.current) cloudsRef.current.rotation.y += controls.cloudsRotationSpeed;
+    if (groupRef.current) groupRef.current.rotation.y += controls.RotationSpeed;
+    if (cloudsRef.current) cloudsRef.current.rotation.y += controls.CloudSpeed;
   });
 
   return (

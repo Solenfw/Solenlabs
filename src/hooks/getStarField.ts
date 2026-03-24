@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import starFieldPath from "@assets/images/circle.png";
+import { ELEMENTS } from "@constants";
 
 const loader = new THREE.TextureLoader();
-const sharedTexture = loader.load(starFieldPath);
+const sharedTexture = loader.load(ELEMENTS.IMAGES.CIRCLE);
 
 export function getStarfield({ numStars = 500 } = {}) {
   function randomSpherePoint() {

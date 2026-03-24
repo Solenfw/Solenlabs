@@ -1,5 +1,5 @@
 import * as APIs from './apis';
-import * as PLANETS from './planets';
 import * as TEXTURES from './textures';
+import * as ELEMENTS from './elements';
 
-export { APIs, PLANETS, TEXTURES };
+export { APIs, TEXTURES, ELEMENTS };

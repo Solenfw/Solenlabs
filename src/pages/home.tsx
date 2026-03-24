@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Moon, Database, Save } from "lucide-react";
 import { handleSignOut } from "@services/authService";
-import newsImg from "@assets/images/news.png";
 import { useAuth } from "@contexts/authContext";
+import { ELEMENTS } from "@constants";
 
 // NewsItem component for rendering individual news (to be replaced with API data later)
 const NewsItem = ({ title, image }: { title: string; image: string }) => (
@@ -46,15 +46,7 @@ export default function Home() {
     updateNews([
       {
         title: "S&P downgrades Botswana as diamond sector faces global headwinds.",
-        image: newsImg,
-      },
-      {
-        title: "Global markets react to unexpected economic shifts worldwide.",
-        image: newsImg,
-      },
-      {
-        title: "Tech companies continue expansion despite global uncertainties.",
-        image: newsImg,
+        image: ELEMENTS.IMAGES.NEWS,
       },
     ]);
   }, []);

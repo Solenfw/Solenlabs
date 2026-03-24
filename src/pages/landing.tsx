@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import earthVideo from '@assets/video/earth-rotating.mp4';
-import USGSLogo from '@assets/images/USGS.png';
+import { ELEMENTS } from '@constants';
 
 export default function Landing() {
   return (
@@ -19,7 +18,7 @@ export default function Landing() {
         {/* background layer image */}
         <div className="absolute inset-0 z-0">
           <video className="w-full h-full object-cover" autoPlay loop muted>
-            <source src={earthVideo} type="video/mp4" />
+            <source src={ELEMENTS.EARTH_ROTATING_VIDEO} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -45,7 +44,7 @@ export default function Landing() {
           {/* USGS Logo */}
           <div className="flex justify-center mb-12">
             <img 
-              src={USGSLogo} 
+              src={ELEMENTS.IMAGES.USGS} 
               alt="USGS science for a changing world" 
               className="h-32 md:h-40 object-contain"
             />

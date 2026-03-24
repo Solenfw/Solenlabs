@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import radGradPath from "@assets/images/rad-grad.png";
+import { IMAGES } from "constants/elements";
 
 const loader = new THREE.TextureLoader();
-const sharedTexture = loader.load(radGradPath);
+const sharedTexture = loader.load(IMAGES.RAD_GRAD);
 
 function getSprite(
   { hasFog, color, opacity, pos, size }: 

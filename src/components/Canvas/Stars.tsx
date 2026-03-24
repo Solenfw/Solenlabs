@@ -10,7 +10,7 @@ const Stars = ({ controls } : { controls: GlobeControls }) => {
   const stars = useMemo(() => getStarfield({ numStars: 2000 }), []);
 
   useFrame(() => {
-    if (starsRef.current) starsRef.current.rotation.y -= controls.starsRotationSpeed;
+    if (starsRef.current) starsRef.current.rotation.y -= controls.StarsSpeed;
   });
 
   return <primitive ref={starsRef} object={stars} />;
