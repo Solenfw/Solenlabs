@@ -1,5 +1,5 @@
 import { drawEarthQuakePoint } from '@utils/earthquakeUtils';
-import { magnitudeToColor, magnitudeToSize } from '@utils/colorScale';
+import { getMagnitudeColor, magnitudeToSize } from '@utils/colorScale';
 import { EarthquakeFeature } from '@types';
 
 
@@ -12,7 +12,7 @@ const EarthquakeMarkers = ( { earthquakes } : { earthquakes: EarthquakeFeature[]
         const mag = eq.properties.mag;
         const marker = drawEarthQuakePoint(lat, lon, eq.id, { 
           size: magnitudeToSize(mag),
-          color: magnitudeToColor(mag),
+          color: getMagnitudeColor(mag),
         });
         return <primitive key={index} object={marker} />;
       })}

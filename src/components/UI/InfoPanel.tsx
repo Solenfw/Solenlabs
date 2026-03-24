@@ -1,11 +1,33 @@
 import { InfoPanelProps } from '@types';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { ChevronLeft, ChevronRight, Save } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { focusOnEarthquake } from '@utils/performRayCast';
 import { Tooltip } from './Tooltip';
+import { getMagnitudeStyle } from '@utils/colorScale';
 
 export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: InfoPanelProps) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [magByFilter, setMagByFilter] = useState('all');
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        if (loading) setVisible(true);
+    }, [loading]);
+
+    const filteredEarthquakes = useMemo(() => {
+        if (magByFilter === 'all') return earthquakes;
+        return earthquakes.filter((eq) => {
+            const mag = eq.properties.mag;
+            if (mag === null) return false;
+            if (magByFilter === 'minor') return mag < 2.5;
+            if (magByFilter === 'light') return mag >= 2.5 && mag < 4.5;
+            if (magByFilter === 'moderate') return mag >= 4.5 && mag < 6.0;
+            if (magByFilter === 'strong') return mag >= 6.0 && mag < 7.0;
+            if (magByFilter === 'major') return mag >= 7.0;
+            return true;
+        });
+    }, [earthquakes, magByFilter]);
+
     return (
         <div 
             className={`fixed top-0 left-0 h-full flex flex-col bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 backdrop-blur-xl border-r border-slate-700/30 shadow-2xl transition-transform duration-500 ease-out z-50
@@ -51,26 +73,33 @@ export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: 
             )}
 
             {/* Earthquake List */}
+            {visible && (
+                <select className="m-5 mx-6 mb-4 px-3 py-2 bg-slate-900/50 text-slate-300 rounded-md border border-slate-700/30 text-sm focus:ring-2 focus:ring-slate-500 focus:outline-none"
+                    value={magByFilter}
+                    onChange={(e) => setMagByFilter(e.target.value)}
+                >
+                    <option className='bg-slate-900' value="all">All Magnitudes</option>
+                    <option className='bg-slate-900' value="minor">Minor (M &lt; 2.5)</option>
+                    <option className='bg-slate-900' value="light">Light (2.5 &le; M &lt; 4.5)</option>
+                    <option className='bg-slate-900' value="moderate">Moderate (4.5 &le; M &lt; 6.0)</option>
+                    <option className='bg-slate-900' value="strong">Strong (6.0 &le; M &lt; 7.0)</option>
+                    <option className='bg-slate-900' value="major">Major (M &ge; 7.0)</option>
+                </select>
+            )}
             <ul className="flex-1 min-h-0 overflow-y-auto px-3 py-2 space-y-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full">
-                {earthquakes.map((eq) => {
+                {filteredEarthquakes.map((eq) => {
                     const { mag, place, time, magType } = eq.properties;
                     
-                    const getMagStyle = (mag : number) => {
-                        if (mag >= 6) return 'from-red-600 to-red-700 text-white shadow-red-500/50';
-                        if (mag >= 5) return 'from-orange-600 to-orange-700 text-white shadow-orange-500/50';
-                        if (mag >= 4) return 'from-yellow-600 to-yellow-700 text-white shadow-yellow-500/50';
-                        return 'from-emerald-600 to-emerald-700 text-white shadow-emerald-500/50';
-                    };
-
                     return (
                         <Tooltip content={`${place} - ${new Date(time).toLocaleString()}`}>
                             <li
                                 key={eq.id}
-                                onClick={() => focusOnEarthquake(eq.id, camera)}
-                                className="group bg-slate-900/40 hover:bg-slate-800/60 rounded-xl p-4 cursor-pointer transition-all duration-300 border border-slate-800/30 hover:border-slate-700/50 hover:shadow-lg hover:shadow-slate-900/50 hover:-translate-y-0.5"
+                                className="group bg-slate-900/40 hover:bg-slate-800/60 rounded-xl p-4 transition-all duration-300 border border-slate-800/30 hover:border-slate-700/50 hover:shadow-lg hover:shadow-slate-900/50 hover:-translate-y-0.5"
                             >
                                 <div className="flex items-start gap-4">
-                                    <div className={`w-14 h-14 rounded-xl bg-linear-to-br ${getMagStyle(mag)} flex items-center justify-center font-bold text-lg shadow-lg transition-transform group-hover:scale-110`}>
+                                    <div 
+                                    onClick={() => focusOnEarthquake(eq.id, camera)}
+                                    className={`w-14 h-14 rounded-xl bg-linear-to-br ${getMagnitudeStyle(mag)} flex items-center cursor-pointer justify-center font-bold text-lg shadow-lg transition-transform group-hover:scale-110`}>
                                         {mag !== null ? mag.toFixed(1) : '–'}
                                     </div>
                                     
@@ -86,6 +115,9 @@ export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: 
                                                 {magType ?? 'N/A'}
                                             </span>
                                         </div>
+                                    </div>
+                                    <div className='hover:border-slate-700/50 hover:bg-slate-600/50 p-1 rounded-md transition-opacity opacity-0 group-hover:opacity-100'>
+                                        <Save className="w-5 h-5 text-slate-500 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity" />
                                     </div>
                                 </div>
                             </li>

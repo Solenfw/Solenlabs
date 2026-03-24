@@ -52,3 +52,47 @@ export interface USGSFeatureCollection {
   features: EarthquakeFeature[];
   bbox?: number[];
 }
+
+export interface EarthquakeDetailProps {
+  id: string;
+  properties: {
+    mag: number;
+    place: string;
+    time: number;
+    updated: number;
+    status: string;
+    tsunami: number;
+    sig: number;
+    net: string;
+    magType: string;
+    type: string;
+    title: string;
+    alert: string | null;
+    felt: number | null;
+    cdi: number | null;
+    mmi: number | null;
+    dmin: number | null;
+    gap: number | null;
+    rms: number | null;
+    nst: number | null;
+    url: string;
+    products: {
+      origin?: Array<{
+        properties: {
+          depth: string;
+          latitude: string;
+          longitude: string;
+          'num-stations-used': string;
+          'num-phases-used': string;
+          'horizontal-error': string;
+          'vertical-error': string;
+          'azimuthal-gap': string;
+          'magnitude-error': string;
+        };
+      }>;
+    };
+  };
+  geometry: {
+    coordinates: [number, number, number];
+  };
+}
