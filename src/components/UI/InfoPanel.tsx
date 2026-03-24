@@ -2,6 +2,7 @@ import { InfoPanelProps } from '@types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { focusOnEarthquake } from '@utils/performRayCast';
+import { Tooltip } from './Tooltip';
 
 export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: InfoPanelProps) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -14,7 +15,7 @@ export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: 
             {/* Toggle Button */}
             <button
                 onClick={() => setIsPanelOpen(!isPanelOpen)}
-                className="absolute -right-12 top-15 bg-linear-to-br from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-slate-100 p-3 rounded-r-xl border border-l-0 border-slate-600/40 transition-all duration-300 hover:shadow-[0_0_20px_rgba(148,163,184,0.3)] hover:translate-x-1 group"
+                className="absolute -right-12 top-125 bg-linear-to-br from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-slate-100 p-3 rounded-r-xl border border-l-0 border-slate-600/40 transition-all duration-300 hover:shadow-[0_0_20px_rgba(148,163,184,0.3)] hover:translate-x-1 group"
                 aria-label={isPanelOpen ? 'Close panel' : 'Open panel'}
             >   
                 {isPanelOpen ? (
@@ -62,31 +63,33 @@ export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: 
                     };
 
                     return (
-                        <li
-                            key={eq.id}
-                            onClick={() => focusOnEarthquake(eq.id, camera)}
-                            className="group bg-slate-900/40 hover:bg-slate-800/60 rounded-xl p-4 cursor-pointer transition-all duration-300 border border-slate-800/30 hover:border-slate-700/50 hover:shadow-lg hover:shadow-slate-900/50 hover:-translate-y-0.5"
-                        >
-                            <div className="flex items-start gap-4">
-                                <div className={`w-14 h-14 rounded-xl bg-linear-to-br ${getMagStyle(mag)} flex items-center justify-center font-bold text-lg shadow-lg transition-transform group-hover:scale-110`}>
-                                    {mag !== null ? mag.toFixed(1) : '–'}
-                                </div>
-                                
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-slate-100 truncate group-hover:text-white transition-colors">
-                                        {place || 'Unknown location'}
-                                    </p>
-                                    <p className="text-xs text-slate-500 mt-1.5 font-medium">
-                                        {new Date(time).toLocaleString()}
-                                    </p>
-                                    <div className="mt-2 flex items-center gap-3 text-xs">
-                                        <span className="px-2 py-0.5 bg-slate-800/60 text-slate-400 rounded-md border border-slate-700/30">
-                                            {magType ?? 'N/A'}
-                                        </span>
+                        <Tooltip content={`${place} - ${new Date(time).toLocaleString()}`}>
+                            <li
+                                key={eq.id}
+                                onClick={() => focusOnEarthquake(eq.id, camera)}
+                                className="group bg-slate-900/40 hover:bg-slate-800/60 rounded-xl p-4 cursor-pointer transition-all duration-300 border border-slate-800/30 hover:border-slate-700/50 hover:shadow-lg hover:shadow-slate-900/50 hover:-translate-y-0.5"
+                            >
+                                <div className="flex items-start gap-4">
+                                    <div className={`w-14 h-14 rounded-xl bg-linear-to-br ${getMagStyle(mag)} flex items-center justify-center font-bold text-lg shadow-lg transition-transform group-hover:scale-110`}>
+                                        {mag !== null ? mag.toFixed(1) : '–'}
+                                    </div>
+                                    
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-semibold text-slate-100 truncate group-hover:text-white transition-colors">
+                                            {place || 'Unknown location'}
+                                        </p>
+                                        <p className="text-xs text-slate-500 mt-1.5 font-medium">
+                                            {new Date(time).toLocaleString()}
+                                        </p>
+                                        <div className="mt-2 flex items-center gap-3 text-xs">
+                                            <span className="px-2 py-0.5 bg-slate-800/60 text-slate-400 rounded-md border border-slate-700/30">
+                                                {magType ?? 'N/A'}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        </Tooltip>
                     );
                 })}
                 

@@ -23,3 +23,8 @@ export interface InputBoxProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   multiline?: boolean;
 }
+
+export interface TooltipProps {
+  text: string;
+  children: React.ReactNode;
+}
