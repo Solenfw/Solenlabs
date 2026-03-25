@@ -7,6 +7,7 @@ import SignIn from '@pages/signIn';
 import SignUp from '@pages/signUp';
 import Settings from '@pages/settings';
 import ForgotPassword from '@pages/forgotPassword';
+import EarthquakeDashboard from '@pages/earthquakeDashboard';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
        {/* Protected routes */}
+      <Route path="/earthquake/:id" element={<ProtectedRoute><EarthquakeDashboard /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />  
       <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
       <Route path="/globe" element={<ProtectedRoute><Globe /></ProtectedRoute>} />

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { 
   Activity, 
   MapPin, 
@@ -9,16 +10,61 @@ import {
   Globe, 
   Wifi
 } from 'lucide-react';
-
-// Assuming these are imported from your actual paths
 import {  getMagnitudeColor, getMagnitudeLabel } from '@utils/colorScale';
 import { EarthquakeDetailProps } from '@types';
 
-interface Props {
-  data: EarthquakeDetailProps;
-}
 
-const EarthquakeDashboard: React.FC<Props> = ({ data }) => {
+const EarthquakeDashboard: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const [data, setData] = useState<EarthquakeDetailProps | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!id) return;
+      try {
+        const detailUrl = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/${id}.geojson`;
+        const response = await fetch(detailUrl);
+        if (!response.ok) throw new Error('Failed to fetch data');
+        const fetchedData = await response.json();
+        setData(fetchedData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-slate-800 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-800 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading earthquake data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-slate-800 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Error: {error || 'No data available'}</p>
+          <button 
+            onClick={() => window.history.back()} 
+            className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   const { properties, geometry } = data;
   
   const magColorHex = `#${getMagnitudeColor(properties.mag).toString(16).padStart(6, '0')}`;

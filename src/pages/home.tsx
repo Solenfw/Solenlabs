@@ -159,12 +159,14 @@ export default function Home() {
                 <p className="text-gray-500 text-lg">No saved earthquake data yet!</p>
               )}
               {savedEarthquakes.map((eq) => (
-                <div key={eq.id} className="bg-white rounded-2xl shadow-md p-5 flex flex-col items-center border-2 border-gray-300 hover:shadow-lg transition cursor-pointer">
-                  <div className="text-3xl font-bold mb-2 text-blue-700">{eq.mag?.toFixed(1) ?? '–'}</div>
-                  <div className="text-sm font-semibold text-gray-800 mb-1 text-center">{eq.place}</div>
-                  <div className="text-xs text-gray-500 mb-2">{new Date(eq.time).toLocaleString()}</div>
-                  <div className="text-xs text-gray-400">{eq.id}</div>
-                </div>
+                <Link key={eq.id} to={`/earthquake/${eq.id}`}>
+                  <div key={eq.id} className="bg-white rounded-2xl shadow-md p-5 flex flex-col items-center border-2 border-gray-300 hover:shadow-lg transition cursor-pointer">
+                    <div className="text-3xl font-bold mb-2 text-blue-700">{eq.mag?.toFixed(1) ?? '–'}</div>
+                    <div className="text-sm font-semibold text-gray-800 mb-1 text-center">{eq.place}</div>
+                    <div className="text-xs text-gray-500 mb-2">{new Date(eq.time).toLocaleString()}</div>
+                    <div className="text-xs text-gray-400">{eq.id}</div>
+                  </div>
+                </Link>
               ))}
             </div>
           )}

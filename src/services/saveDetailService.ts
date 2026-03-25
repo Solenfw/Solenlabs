@@ -40,8 +40,8 @@ export const handleSaveEarthquake = async (detailUrl: string, currentUserId: str
             mmi:        earthquake.properties.mmi,
             url:        earthquake.properties.url,
 
-            longitude:  earthquake.geometry.coordinates[0],
-            latitude:   earthquake.geometry.coordinates[1],
+            long:  earthquake.geometry.coordinates[0],
+            lat:   earthquake.geometry.coordinates[1],
             depth:      earthquake.geometry.coordinates[2],
 
             raw:        earthquake,  

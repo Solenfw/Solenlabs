@@ -125,12 +125,6 @@ export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: 
                                             </span>
                                         </div>
                                     </div>
-                                    {/* Show Toast */}
-                                    {showToast && (
-                                        <div className='center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50'>
-                                            Earthquake saved!
-                                        </div>
-                                    )}
                                     <div
                                         onClick={() => {
                                             handleSaveEarthquake(eq.properties.detail, user?.id || '').then(() => {
@@ -145,6 +139,13 @@ export const InfoPanel = ({ earthquakes, loading, error, lastUpdated, camera }: 
                         </Tooltip>
                     );
                 })}
+
+                {/* Show Toast */}
+                {showToast && (
+                    <div className='center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50'>
+                        Earthquake saved!
+                    </div>
+                )}
                 
                 {!loading && earthquakes.length === 0 && (
                     <li className="px-6 py-12 text-center">
