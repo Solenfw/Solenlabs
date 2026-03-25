@@ -28,3 +28,9 @@ export interface TooltipProps {
   text: string;
   children: React.ReactNode;
 }
+
+export type NewsItemType = {
+  title: string;
+  image: string;
+  url: string;
+};
