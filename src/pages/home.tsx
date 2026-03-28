@@ -79,13 +79,10 @@ export default function Home() {
   // News Fetching Logic (Only fetches if cache is empty)
   useEffect(() => {
     const fetchNews = async () => {
-      if (news.length > 0) return; // Skip if already loaded in store
+      if (news.length > 0) return; 
       
       try {
-        const apiKey = import.meta.env.VITE_NEWS_API_KEY;
-        if (!apiKey) throw new Error("Missing API Key");
-
-        const res = await fetch(`https://newsapi.org/v2/everything?q=science&apiKey=${apiKey}`);
+        const res = await fetch(`/api/news`);
         const data = await res.json();
 
         if (data.status === "ok" && Array.isArray(data.articles)) {
@@ -95,13 +92,15 @@ export default function Home() {
             url: a.url 
           }));
           setNews(formattedNews, new Date().toLocaleTimeString());
+        } else {
+          console.error("NewsAPI returned an error:", data);
         }
       } catch (e) {
         console.error("Fetch failed:", e);
       }
     };
     fetchNews();
-  }, [news.length, setNews]);
+  },[news.length, setNews]);
 
   // Storage Fetching Logic (Only fetches if not already loaded)
   useEffect(() => {
